@@ -54,6 +54,17 @@ If the user asks you to edit files outside the role's assigned folder, STOP and 
 
 ## 5. GIT TASK GUARD (STOP & MERGE PROTOCOL)
 - Never work directly on `main` or `dev`.
-- Branches must follow `feat/r<RoleNumber>-<task-name>`.
+- Branches must follow `feat/r<RoleNumber>-<task-name>` branched from the developer's base branch.
 - **MANDATORY STOP ON TASK COMPLETION:** When the current task is verified with `npm run build`, REFUSE to start the next task until the branch is committed, pushed, and merged into `dev`.
 - Execute `/finish-task` workflow to verify build and stage commits cleanly.
+
+---
+
+## 6. POST-MERGE SYNC & IMPACT ANALYSIS (MANDATORY AFTER PULLING DEV)
+Whenever changes are pulled or rebased from `origin/dev`:
+1. Run `npm run build` immediately to verify zero compilation breakages.
+2. Analyze incoming commits (`git log -n 3 --oneline --stat`):
+   - **Role 1:** Check if `useGameStore.ts` added new actions to invoke from the PixiJS game loop.
+   - **Role 3:** Check if `useGameStore.ts` added new state variables to render in the React HUD.
+   - **All Roles:** Check if `src/config/constants.ts` or `src/types/` changed.
+3. Emit a concise integration brief outlining teammates' changes and any necessary local adjustments.
