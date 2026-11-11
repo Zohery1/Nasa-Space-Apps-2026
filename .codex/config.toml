@@ -3,6 +3,10 @@
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+[mcp_servers.fetch]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-fetch"]
+
 [mcp_servers.filesystem]
 command = "npx"
 args = ["-y", "@modelcontextprotocol/server-filesystem", "."]
