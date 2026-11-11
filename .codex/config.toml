@@ -1,0 +1,8 @@
+# Codex CLI MCP Configuration
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+
+[mcp_servers.filesystem]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem", "."]

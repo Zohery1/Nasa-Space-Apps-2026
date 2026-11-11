@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/layout/GameOverlay.tsx","./src/config/constants.ts","./src/game/PixiWrapper.tsx","./src/services/nasaService.ts","./src/store/useGameStore.ts","./src/types/asteroid.ts"],"version":"5.7.3"}
