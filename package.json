@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "impact-check": "node scripts/sync_impact_check.mjs"
+    "impact-check": "node scripts/sync_impact_check.mjs",
+    "set-role": "node scripts/set-role.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.66.0",

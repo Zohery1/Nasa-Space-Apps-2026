@@ -13,38 +13,27 @@ This repository is strictly configured for **Google Antigravity (`agy`)** and **
 
 ---
 
-## 2. MANDATORY SKILLS & CONTEXT7 COMPLIANCE
-Before writing or refactoring code involving external libraries, the agent MUST consult the repository skills located in `.agent/skills/` and query live documentation via `context7` MCP:
-
-- **Role 1 (Lead Game Dev):**
+## 2. ROLE DISCOVERY & IDENTITY LOCK
+At the start of any session, check `.role.json` (or the active branch / user prompt) to identify the developer's role:
+- **Role 1 (Lead Game Dev):** `src/game/**` ONLY.
   - Skills: `.agent/skills/pixijs/` and `.agent/skills/pixijs-performance/`
   - PixiJS v8 Rule: ALWAYS use **PixiJS v8** syntax (`await app.init()`, `app.canvas`, `Assets.load()`). NEVER use v7 (`new PIXI.Application({...})`, `app.view`).
-- **Role 2 (Data & Integration Eng):**
+- **Role 2 (Data & Integration Eng):** `src/services/**`, `src/data/**`, `src/store/**` ONLY.
   - Skill: `.agent/skills/zustand/`
   - Rule: Keep high-frequency coordinates out of the store; use discrete event actions only.
-- **Role 3 (UI/UX & Web Dev):**
+- **Role 3 (UI/UX & Web Dev):** `src/components/**`, `src/audio/**`, `src/App.tsx` ONLY.
   - Skills: `.agent/skills/frontend-design/`, `.agent/skills/vercel-react-best-practices/`, and `.agent/skills/animation-performance/`
   - Audio: Follow `public/assets/audio/NASA_AUDIO_LIBRARY.md` to wire authentic NASA sound assets via Howler.js.
   - Rule: Maintain `pointer-events-none` on overlay roots, prevent unnecessary re-renders in HUD counters.
-- **Role 4 (Pitch, Lore, Design & Assets):**
+- **Role 4 (Pitch, Lore, Design & Assets):** `public/assets/**`, `README.md`, `src/config/constants.ts` (tuning only).
   - Skills: `.agent/skills/game-design-theory/` and `.agent/skills/sound-effects/`
   - Audio: Source real audio clips from `public/assets/audio/NASA_AUDIO_LIBRARY.md` (Apollo comms, countdown, plasma sounds).
-
----
-
-## 3. STRICT FOLDER OWNERSHIP (TERRITORY LOCK)
-Verify the developer's role before modifying any file:
-- **Role 1 (Lead Game Dev):** `src/game/**` ONLY.
-- **Role 2 (Data & Integration Eng):** `src/services/**`, `src/data/**`, `src/store/**` ONLY.
-- **Role 3 (UI/UX & Web Dev):** `src/components/**`, `src/audio/**`, `src/App.tsx` ONLY.
-- **Role 4 (Pitch, Lore & Assets):** `public/assets/**`, `README.md`, `src/config/constants.ts` (tuning only).
-- **Shared Immutable Contracts:** Any file in `src/types/**` is strictly read-only after team consensus.
 
 If the user asks you to edit files outside the role's assigned folder, STOP and warn them immediately.
 
 ---
 
-## 4. ARCHITECTURAL LAWS
+## 3. ARCHITECTURAL LAWS
 1. **Max 180 lines per file:** Split into smaller modules if any file exceeds 180 lines.
 2. **Zero React State in 60 FPS Loop:** Never store high-frequency entity positions or frame ticks inside React `useState`.
 3. **One-Way Zustand Bridge:** PixiJS communicates with the UI strictly via `useGameStore.getState().actionName()`.
@@ -52,7 +41,7 @@ If the user asks you to edit files outside the role's assigned folder, STOP and 
 
 ---
 
-## 5. GIT TASK GUARD (STOP & MERGE PROTOCOL)
+## 4. GIT TASK GUARD (STOP & MERGE PROTOCOL)
 - Never work directly on `main` or `dev`.
 - Branches must follow `feat/r<RoleNumber>-<task-name>` branched from the developer's base branch.
 - **MANDATORY STOP ON TASK COMPLETION:** When the current task is verified with `npm run build`, REFUSE to start the next task until the branch is committed, pushed, and merged into `dev`.
@@ -60,11 +49,8 @@ If the user asks you to edit files outside the role's assigned folder, STOP and 
 
 ---
 
-## 6. POST-MERGE SYNC & IMPACT ANALYSIS (MANDATORY AFTER PULLING DEV)
+## 5. POST-MERGE SYNC & IMPACT DISPATCH (MANDATORY AFTER PULLING DEV)
 Whenever changes are pulled or rebased from `origin/dev`:
-1. Run `npm run build` immediately to verify zero compilation breakages.
-2. Analyze incoming commits (`git log -n 3 --oneline --stat`):
-   - **Role 1:** Check if `useGameStore.ts` added new actions to invoke from the PixiJS game loop.
-   - **Role 3:** Check if `useGameStore.ts` added new state variables to render in the React HUD.
-   - **All Roles:** Check if `src/config/constants.ts` or `src/types/` changed.
-3. Emit a concise integration brief outlining teammates' changes and any necessary local adjustments.
+1. Run `npm run impact-check` (or `/sync-impact` workflow).
+2. The system automatically inspects `.role.json` and outputs **ONLY** that role's required integration tasks and changes.
+3. Verify that `npm run build` passes with zero compilation errors before continuing feature work.

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { execSync } from 'child_process';
+import fs from 'fs';
 
 function run(cmd) {
   try {
@@ -13,8 +14,9 @@ function run(cmd) {
 const currentBranch = run('git branch --show-current') || 'dev';
 const args = process.argv.slice(2);
 
-// Check if user passed an explicit role or name: e.g. `npm run impact-check -- --role 1` or `npm run impact-check Omar`
 let targetRole = null;
+
+// A. Check command line argument: e.g. `npm run impact-check -- --role 1` or `npm run impact-check 1`
 const roleArgIndex = args.findIndex(a => a === '--role' || a === '-r');
 if (roleArgIndex !== -1 && args[roleArgIndex + 1]) {
   targetRole = parseInt(args[roleArgIndex + 1], 10);
@@ -22,7 +24,19 @@ if (roleArgIndex !== -1 && args[roleArgIndex + 1]) {
   targetRole = parseInt(args[0], 10);
 }
 
-// Auto-detect role from feature branch name (e.g. feat/r1-..., feat/r2-...)
+// B. Check persistent `.role.json` if configured via `npm run set-role <1|2|3|4>`
+if (!targetRole && fs.existsSync('.role.json')) {
+  try {
+    const roleConfig = JSON.parse(fs.readFileSync('.role.json', 'utf-8'));
+    if (roleConfig && roleConfig.role) {
+      targetRole = roleConfig.role;
+    }
+  } catch (e) {
+    // Ignore invalid json
+  }
+}
+
+// C. Auto-detect from feature branch naming (e.g. feat/r1-..., feat/r2-...)
 if (!targetRole && currentBranch.includes('r1')) targetRole = 1;
 if (!targetRole && currentBranch.includes('r2')) targetRole = 2;
 if (!targetRole && currentBranch.includes('r3')) targetRole = 3;
@@ -123,8 +137,7 @@ if (targetRole && roleDetails[targetRole]) {
     console.log('');
   }
 } else {
-  // If no role is specified, print individual separate cards for each member
-  console.log('💡 Tip: To see ONLY your role, run: `npm run impact-check -- --role <1|2|3|4>`\n');
+  console.log('💡 Tip: Set your machine role once with `npm run set-role <1|2|3|4>`\n');
   [1, 2, 3, 4].forEach(rId => {
     const role = roleDetails[rId];
     console.log(`--- [ ${role.title} ] ---`);
