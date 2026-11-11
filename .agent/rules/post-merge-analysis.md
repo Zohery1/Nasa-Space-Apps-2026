@@ -11,21 +11,39 @@ Whenever the developer pulls or rebases `origin/dev`:
 git fetch origin dev && git rebase origin/dev
 ```
 
-The agent MUST automatically:
-1. **Run Build Verification:**
-   Execute `npm run build`. If it fails, report the exact TypeScript compiler output and fix integration mismatches before continuing feature work.
-2. **Perform Impact Analysis:**
-   Inspect the incoming commits (`git log -n 3 --oneline --stat`):
-   - **Contract & Store Impact (`src/types/**`, `src/store/**`):**
-     - Did Role 2 add or modify state properties in `useGameStore.ts`?
-     - *For Role 1 (Game Dev):* Identify new actions to trigger from the game loop (`damagePlayer`, `nextWave`, etc.).
-     - *For Role 3 (UI/UX):* Identify new state variables to render in the HUD or telemetry cards.
-   - **Tuning Impact (`src/config/constants.ts`):**
-     - Did Role 4 calibrate entity speeds, HP, cooldowns, or colors? Confirm that local game math uses these updated constants.
-   - **Asset Impact (`public/assets/**`):**
-     - Are new sprites (`public/assets/sprites/`) or authentic NASA audio files (`public/assets/audio/`) ready for `Assets.load()` or `Howler` instantiation?
-3. **Emit Integration Brief:**
-   Provide the developer with a concise 3-bullet summary:
-   - **What landed in `dev`:** Brief summary of teammates' merged work.
-   - **Impact on current role:** Concrete integration points or adjustments needed.
-   - **Build status:** Exit code and verification confirmation.
+Run the automated dispatcher:
+```bash
+npm run impact-check
+# Or in Antigravity:
+/sync-impact
+```
+
+---
+
+## 2. Automated Role-Specific Dispatch Actions
+
+When `npm run impact-check` executes, it analyzes all modified files and dispatches specific tasks:
+
+### 👨💻 Role 1 (Lead Game Dev):
+- **Store Changes (`src/store/**`):** Identifies new store actions (e.g. `addScore`, `damagePlayer`, `nextWave`) that must be triggered from PixiJS collision/ticker events.
+- **Contract Changes (`src/types/**`):** Updates internal entity properties and math to match new shared schemas.
+- **Balancing Changes (`src/config/constants.ts`):** Recalibrates movement speeds, projectile cooldowns, and physics damping.
+- **Sprite Assets (`public/assets/sprites/**`):** Instantiates new textures via `Assets.load()`.
+
+### 🔌 Role 2 (Data & Integration Eng):
+- **Contract Changes (`src/types/**`):** Updates API parser output and TanStack Query transformer to match new contract fields.
+- **Store Changes:** Ensures store actions mutate state cleanly and exposes needed selectors.
+
+### 🎨 Role 3 (UI/UX & Web Dev):
+- **Store Changes (`src/store/**`):** Binds newly added state variables into reactive HUD components, telemetry cards, and modals.
+- **Audio Assets (`public/assets/audio/**`):** Instantiates Howler sound channels and wires audio triggers to discrete store events.
+- **Canvas Viewports:** Verifies `pointer-events-none` on overlay roots so canvas input is unblocked.
+
+### 📝 Role 4 (Pitch, Lore, Design & Assets):
+- **Balancing Tuning (`src/config/constants.ts`):** Adjusts gameplay difficulty curves based on playtesting feedback.
+- **Asset Fulfillment (`public/assets/**`):** Generates missing sprites or procures authentic NASA audio clips requested by Role 1 or Role 3.
+
+---
+
+## 3. Mandatory Build Guard
+The dispatcher automatically runs `npm run build`. If any compilation error occurs, the agent **MUST STOP** and resolve it before proceeding with any new feature work.
