@@ -13,10 +13,18 @@ This repository is strictly configured for **Google Antigravity (`agy`)** and **
 
 ---
 
-## 2. MANDATORY RULE: Context7-First
-Before writing or refactoring code involving external libraries (`pixi.js`, `@tanstack/react-query`, `zustand`, `framer-motion`, `recharts`, `howler`):
-1. Invoke the `context7` MCP tool (`resolve-library-id` -> `query-docs`) to verify current library APIs.
-2. Specifically for `pixi.js`: ALWAYS use **PixiJS v8** syntax (`await app.init()`, `app.canvas`, `Assets.load()`). NEVER use v7 (`new PIXI.Application({...})`, `app.view`).
+## 2. MANDATORY SKILLS & CONTEXT7 COMPLIANCE
+Before writing or refactoring code involving external libraries, the agent MUST consult the repository skills located in `.agent/skills/` and query live documentation via `context7` MCP:
+
+- **Role 1 (Lead Game Dev):**
+  - Skills: `.agent/skills/pixijs/` and `.agent/skills/pixijs-performance/`
+  - PixiJS v8 Rule: ALWAYS use **PixiJS v8** syntax (`await app.init()`, `app.canvas`, `Assets.load()`). NEVER use v7 (`new PIXI.Application({...})`, `app.view`).
+- **Role 2 (Data & Integration Eng):**
+  - Skill: `.agent/skills/zustand/`
+  - Rule: Keep high-frequency coordinates out of the store; use discrete event actions only.
+- **Role 3 (UI/UX & Web Dev):**
+  - Skills: `.agent/skills/vercel-react-best-practices/` and `.agent/skills/animation-performance/`
+  - Rule: Maintain `pointer-events-none` on overlay roots, prevent unnecessary re-renders in HUD counters.
 
 ---
 

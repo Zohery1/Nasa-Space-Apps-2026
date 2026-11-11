@@ -1,4 +1,4 @@
-# Context7-First Verification Rule
+# Skills & Context7 Verification Rule
 
 ## Mandatory Prerequisite for Library Coding
 Whenever asked to implement or update code using:
@@ -10,7 +10,11 @@ Whenever asked to implement or update code using:
 - `howler`
 
 The agent MUST:
-1. Call `resolve-library-id` from the `context7` MCP server to get the up-to-date documentation ID.
-2. Call `query-docs` on the specific method or pattern needed.
-3. Validate that the code uses the latest APIs (e.g. PixiJS v8 async initialization).
-4. If Context7 is not reachable, consult `.agent/skills/pixi-v8-patterns.md` as an authoritative local reference.
+1. Reference the corresponding skill in `.agent/skills/`:
+   - `pixijs/` and `pixijs-performance/` for PixiJS game development.
+   - `zustand/` for state management patterns.
+   - `vercel-react-best-practices/` for React optimization.
+   - `animation-performance/` for smooth animations.
+2. Call `resolve-library-id` from the `context7` MCP server to get the up-to-date documentation ID.
+3. Call `query-docs` on the specific method or pattern needed.
+4. Validate that the code uses the latest APIs (e.g. PixiJS v8 async initialization).
