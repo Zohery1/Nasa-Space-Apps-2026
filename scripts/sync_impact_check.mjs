@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { execSync } from 'child_process';
-import fs from 'fs';
 
 function run(cmd) {
   try {
@@ -10,107 +9,142 @@ function run(cmd) {
   }
 }
 
-console.log('\n🔍 ===================================================');
-console.log('   NASA SPACE APPS 2026 — CROSS-ROLE IMPACT DISPATCHER');
-console.log('=====================================================\n');
+// 1. Determine active branch and role
+const currentBranch = run('git branch --show-current') || 'dev';
+const args = process.argv.slice(2);
 
-// 1. Fetch latest dev status
+// Check if user passed an explicit role or name: e.g. `npm run impact-check -- --role 1` or `npm run impact-check Omar`
+let targetRole = null;
+const roleArgIndex = args.findIndex(a => a === '--role' || a === '-r');
+if (roleArgIndex !== -1 && args[roleArgIndex + 1]) {
+  targetRole = parseInt(args[roleArgIndex + 1], 10);
+} else if (args[0] && !isNaN(parseInt(args[0], 10))) {
+  targetRole = parseInt(args[0], 10);
+}
+
+// Auto-detect role from feature branch name (e.g. feat/r1-..., feat/r2-...)
+if (!targetRole && currentBranch.includes('r1')) targetRole = 1;
+if (!targetRole && currentBranch.includes('r2')) targetRole = 2;
+if (!targetRole && currentBranch.includes('r3')) targetRole = 3;
+if (!targetRole && currentBranch.includes('r4')) targetRole = 4;
+
+// 2. Fetch latest dev
 run('git fetch origin dev');
 
-// 2. Determine diff against dev
+// 3. Inspect diff against dev
 const changedFilesRaw = run('git diff --name-only origin/dev HEAD') || '';
 const changedFiles = changedFilesRaw.split('\n').filter(Boolean);
-
-// 3. Inspect recent commits on dev
 const recentCommits = run('git log origin/dev -n 3 --oneline') || 'No recent commits.';
 
-console.log('📦 Recent commits on origin/dev:');
-console.log(recentCommits.split('\n').map(l => `   • ${l}`).join('\n'));
-console.log('\n-----------------------------------------------------');
-
-const roleTasks = {
-  role1: [], // Game Dev
-  role2: [], // Data & Integration
-  role3: [], // UI/UX
-  role4: [], // Pitch & Assets
-};
-
-// Check for Store and Types changes
+// Impact detectors
 const touchedStore = changedFiles.some(f => f.includes('src/store/'));
 const touchedTypes = changedFiles.some(f => f.includes('src/types/'));
 const touchedConstants = changedFiles.some(f => f.includes('src/config/constants.ts'));
 const touchedAssets = changedFiles.some(f => f.startsWith('public/assets/'));
 const touchedGame = changedFiles.some(f => f.startsWith('src/game/'));
 const touchedComponents = changedFiles.some(f => f.startsWith('src/components/'));
+const touchedServices = changedFiles.some(f => f.startsWith('src/services/'));
 
+const roleDetails = {
+  1: {
+    title: '👨💻 Role 1 (Lead Game Dev)',
+    territory: 'src/game/**',
+    tasks: [],
+  },
+  2: {
+    title: '🔌 Role 2 (Data & Integration Eng)',
+    territory: 'src/services/**, src/data/**, src/store/**',
+    tasks: [],
+  },
+  3: {
+    title: '🎨 Role 3 (UI/UX & Web Dev)',
+    territory: 'src/components/**, src/audio/**, src/App.tsx',
+    tasks: [],
+  },
+  4: {
+    title: '📝 Role 4 (Pitch, Lore, Design & Assets)',
+    territory: 'public/assets/**, README.md, src/config/constants.ts',
+    tasks: [],
+  },
+};
+
+// Populate tasks
 if (touchedTypes) {
-  roleTasks.role1.push('⚠️ Shared contracts in `src/types/` changed. Review interface signatures and update entity models.');
-  roleTasks.role2.push('⚠️ Shared contracts in `src/types/` changed. Ensure API mapper output strictly conforms to updated types.');
-  roleTasks.role3.push('⚠️ Shared contracts in `src/types/` changed. Verify HUD prop bindings match interface updates.');
+  roleDetails[1].tasks.push('Shared contracts in `src/types/` changed. Review interface signatures and update entity models.');
+  roleDetails[2].tasks.push('Shared contracts in `src/types/` changed. Ensure API parser and store conform to updated types.');
+  roleDetails[3].tasks.push('Shared contracts in `src/types/` changed. Verify HUD prop bindings match interface updates.');
 }
 
 if (touchedStore) {
-  roleTasks.role1.push('⚡ Store updated in `src/store/useGameStore.ts`. Check for newly added actions to invoke from Pixi ticker/collision loops.');
-  roleTasks.role3.push('🎨 Store updated in `src/store/useGameStore.ts`. Subscribe to new state variables in HUD / modal components.');
+  roleDetails[1].tasks.push('Store actions updated in `src/store/useGameStore.ts`. Trigger new actions from PixiJS collision/ticker events.');
+  roleDetails[3].tasks.push('Store state props updated in `src/store/useGameStore.ts`. Subscribe to new state variables in HUD / modal components.');
 }
 
 if (touchedConstants) {
-  roleTasks.role1.push('⚖️ Game balancing numbers in `constants.ts` updated. Verify entity speed, HP, and cooldown variables match latest values.');
-  roleTasks.role4.push('⚖️ Balancing values updated. Playtest to confirm difficulty curve and gameplay pace.');
+  roleDetails[1].tasks.push('Game balance numbers in `constants.ts` updated. Verify entity speed, HP, and cooldown variables match latest values.');
+  roleDetails[4].tasks.push('Balancing values updated. Playtest to confirm difficulty curve and gameplay pace.');
 }
 
 if (touchedAssets) {
-  roleTasks.role1.push('🖼️ New assets detected in `public/assets/`. Load sprites using PixiJS `Assets.load()`.');
-  roleTasks.role3.push('🔊 New audio/sprites detected. Load audio via Howler in `src/audio/` or render graphic assets in UI.');
+  roleDetails[1].tasks.push('New visual assets detected in `public/assets/sprites/`. Load textures using PixiJS `Assets.load()`.');
+  roleDetails[3].tasks.push('New audio detected in `public/assets/audio/`. Wire sound effects via Howler.js in `src/audio/`.');
 }
 
 if (touchedGame) {
-  roleTasks.role3.push('🎮 Game engine changes detected in `src/game/`. Test canvas interaction and verify pointer-events pass-through.');
+  roleDetails[3].tasks.push('Game canvas engine updated in `src/game/`. Test overlay pass-through and click transparency.');
 }
 
 if (touchedComponents) {
-  roleTasks.role1.push('🖥️ UI components updated. Verify game canvas resizing and viewports are unobstructed.');
+  roleDetails[1].tasks.push('UI layout updated. Verify canvas resizing and ensure viewports remain unobstructed.');
 }
 
-// Print targeted dispatches
-console.log('🎯 TARGETED ROLE ACTION DISPATCHES:\n');
-
-console.log('👨💻 Role 1 (Lead Game Dev):');
-if (roleTasks.role1.length === 0) {
-  console.log('   ✅ No pending engine integration tasks. Continue current feature.');
-} else {
-  roleTasks.role1.forEach(t => console.log(`   👉 ${t}`));
+if (touchedServices) {
+  roleDetails[1].tasks.push('Data pipeline updated in `src/services/`. Ensure incoming entity data flows correctly into game spawner.');
 }
 
-console.log('\n🔌 Role 2 (Data & Integration Eng):');
-if (roleTasks.role2.length === 0) {
-  console.log('   ✅ No pending data integration tasks. Continue current feature.');
+console.log('\n=============================================================');
+console.log(`📡 PERSONALIZED POST-SYNC BRIEFING — Branch: [${currentBranch}]`);
+console.log('=============================================================\n');
+
+console.log('📦 What landed on origin/dev:');
+console.log(recentCommits.split('\n').map(l => `   • ${l}`).join('\n'));
+console.log('\n-------------------------------------------------------------');
+
+// If a specific role is targeted, display ONLY that role's briefing!
+if (targetRole && roleDetails[targetRole]) {
+  const role = roleDetails[targetRole];
+  console.log(`🎯 YOUR PERSONAL TASKS (${role.title}):`);
+  console.log(`🔒 Your Territory: ${role.territory}\n`);
+  
+  if (role.tasks.length === 0) {
+    console.log('   ✅ No required adjustments from this merge! You can continue your current task.\n');
+  } else {
+    role.tasks.forEach((t, i) => console.log(`   ${i + 1}. 👉 ${t}`));
+    console.log('');
+  }
 } else {
-  roleTasks.role2.forEach(t => console.log(`   👉 ${t}`));
+  // If no role is specified, print individual separate cards for each member
+  console.log('💡 Tip: To see ONLY your role, run: `npm run impact-check -- --role <1|2|3|4>`\n');
+  [1, 2, 3, 4].forEach(rId => {
+    const role = roleDetails[rId];
+    console.log(`--- [ ${role.title} ] ---`);
+    if (role.tasks.length === 0) {
+      console.log('   ✅ No actions needed.\n');
+    } else {
+      role.tasks.forEach(t => console.log(`   👉 ${t}`));
+      console.log('');
+    }
+  });
 }
 
-console.log('\n🎨 Role 3 (UI/UX & Web Dev):');
-if (roleTasks.role3.length === 0) {
-  console.log('   ✅ No pending UI integration tasks. Continue current feature.');
-} else {
-  roleTasks.role3.forEach(t => console.log(`   👉 ${t}`));
-}
+// Build Check
+console.log('-------------------------------------------------------------');
+process.stdout.write('🛠️ Verifying build health (npm run build)... ');
+const buildOutput = run('npm run build');
 
-console.log('\n📝 Role 4 (Pitch, Lore, Design & Assets):');
-if (roleTasks.role4.length === 0) {
-  console.log('   ✅ No pending asset/lore tasks. Continue pitch preparation.');
+if (buildOutput) {
+  console.log('✅ HEALTHY (0 errors)\n');
 } else {
-  roleTasks.role4.forEach(t => console.log(`   👉 ${t}`));
-}
-
-// Run Build Verification
-console.log('\n-----------------------------------------------------');
-console.log('🛠️ Running TypeScript build verification (npm run build)...');
-
-const buildResult = run('npm run build');
-if (buildResult) {
-  console.log('✅ BUILD STATUS: PASSED (Zero TypeScript or bundling errors).\n');
-} else {
-  console.log('❌ BUILD STATUS: FAILED! Run `npm run build` to view and fix compilation errors immediately.\n');
+  console.log('❌ BUILD BROKEN! Immediate action required before continuing.\n');
   process.exit(1);
 }
