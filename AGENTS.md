@@ -23,8 +23,12 @@ Before writing or refactoring code involving external libraries, the agent MUST 
   - Skill: `.agent/skills/zustand/`
   - Rule: Keep high-frequency coordinates out of the store; use discrete event actions only.
 - **Role 3 (UI/UX & Web Dev):**
-  - Skills: `.agent/skills/vercel-react-best-practices/` and `.agent/skills/animation-performance/`
+  - Skills: `.agent/skills/frontend-design/`, `.agent/skills/vercel-react-best-practices/`, and `.agent/skills/animation-performance/`
+  - Audio: Follow `public/assets/audio/NASA_AUDIO_LIBRARY.md` to wire authentic NASA sound assets via Howler.js.
   - Rule: Maintain `pointer-events-none` on overlay roots, prevent unnecessary re-renders in HUD counters.
+- **Role 4 (Pitch, Lore, Design & Assets):**
+  - Skills: `.agent/skills/game-design-theory/` and `.agent/skills/sound-effects/`
+  - Audio: Source real audio clips from `public/assets/audio/NASA_AUDIO_LIBRARY.md` (Apollo comms, countdown, plasma sounds).
 
 ---
 
