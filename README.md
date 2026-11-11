@@ -1,7 +1,6 @@
-# 🚀 NASA NEO Defender — Planetary Defense Simulator
+# 🚀 NASA Space Apps Hackathon — Starter Foundation
 
-> 2D Real-Time Orbital Defense Simulation Game powered by live **NASA NeoWs** (Near Earth Object Web Service) telemetry data.
-> Built for **NASA Space Apps Hackathon (48h)**.
+> Multi-Agent Ready 2D Web Game Template (Vite + React 18 + PixiJS v8 + TanStack Query + Zustand + Tailwind CSS).
 
 ---
 
@@ -9,7 +8,7 @@
 - **Engine / Rendering**: [PixiJS v8](https://pixijs.com/) (High-performance WebGL 2D engine)
 - **UI & HUD Overlay**: React 18 + Tailwind CSS + Framer Motion
 - **State Management**: Zustand (`src/store/useGameStore.ts`)
-- **Data Caching & Offline Resilience**: TanStack Query v5 + NASA NeoWs API
+- **Data Caching & API Client**: TanStack Query v5
 - **Audio**: Howler.js
 - **Bundler & Tooling**: Vite + TypeScript
 
@@ -19,12 +18,12 @@
 To prevent git merge conflicts and ensure parallel execution:
 | Role | Title | Territory Folder | Key Responsibility |
 |---|---|---|---|
-| **Role 1** | Lead Game Dev | `src/game/**` | PixiJS v8 Canvas, Ticker, Physics, Asteroid Spawner, Collisions, Lasers |
-| **Role 2** | Data & Integration Eng | `src/services/**`, `src/data/**`, `src/store/**` | NASA NeoWs API, TanStack Query, offline mock fallback, Zustand Store |
-| **Role 3** | UI/UX & Web Dev | `src/components/**`, `src/audio/**`, `src/App.tsx` | HUD Overlay, Live NASA Telemetry Card, Game Over Modal, SFX, Tailwind |
-| **Role 4** | Pitch, Story & Assets | `public/assets/**`, `README.md`, `constants.ts` | Lore, AI Assets (sprites/audio), Game Balancing, Pitch Deck, Video Demo |
+| **Role 1** | Lead Game Dev | `src/game/**` | PixiJS v8 Canvas, Ticker, 2D Entities, Physics, Game Loop |
+| **Role 2** | Data & Integration Eng | `src/services/**`, `src/data/**`, `src/store/**` | NASA Open APIs, TanStack Query, Zustand Store & Data Flow |
+| **Role 3** | UI/UX & Web Dev | `src/components/**`, `src/audio/**`, `src/App.tsx` | HUD Overlays, Modals, Menus, SFX Integration, Tailwind Styling |
+| **Role 4** | Pitch, Story & Assets | `public/assets/**`, `README.md`, `constants.ts` | Game Lore, Visual/Audio Assets, Gameplay Balancing, Pitch Deck, Video Demo |
 
-*Note: `src/types/asteroid.ts` is the shared immutable data contract.*
+*Note: `src/types/**` contains shared immutable contracts agreed upon by the team.*
 
 ---
 
@@ -38,7 +37,7 @@ To prevent git merge conflicts and ensure parallel execution:
 ```bash
 # Clone the repository
 git clone <YOUR_REPO_URL>
-cd nasa-neo-defender
+cd nasa
 
 # Checkout the active development branch
 git checkout dev
@@ -54,7 +53,7 @@ npm run dev
 ```
 
 ### 3. Context7 MCP Setup
-This project mandates the **Context7-First Rule**: AI agents must query live documentation via `context7` MCP before generating library code.
+This project mandates the **Context7-First Rule**: AI agents must query live documentation via `context7` MCP before generating third-party library code.
 - Ensure `.mcp.json` is present in the repository root.
 - For Codex CLI users: verify `~/.codex/config.toml` includes:
   ```toml
@@ -62,14 +61,6 @@ This project mandates the **Context7-First Rule**: AI agents must query live doc
   command = "npx"
   args = ["-y", "@upstash/context7-mcp@latest"]
   ```
-
-### 4. NASA API Key
-Register for a free key at [https://api.nasa.gov/](https://api.nasa.gov/) to get 1,000 req/hr.
-Create `.env.local`:
-```bash
-VITE_NASA_API_KEY=your_registered_key_here
-```
-*(If omitted, the app automatically falls back to `mockNeoData.json` with zero errors).*
 
 ---
 
@@ -80,7 +71,7 @@ VITE_NASA_API_KEY=your_registered_key_here
    ```
 2. **Create feature branch:**
    ```bash
-   git checkout -b feat/r1-player-movement   # Replace r1 with your role number
+   git checkout -b feat/r1-task-name   # Replace r1 with your role number
    ```
 3. **Execute task with your AI Agent** (`Antigravity` or `Codex`).
 4. **Finish task & verify:**

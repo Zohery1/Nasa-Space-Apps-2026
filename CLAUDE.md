@@ -14,15 +14,15 @@ Verify the developer's role before modifying any file:
 - **Role 2 (Data & Integration Eng):** `src/services/**`, `src/data/**`, `src/store/**` ONLY.
 - **Role 3 (UI/UX & Web Dev):** `src/components/**`, `src/audio/**`, `src/App.tsx` ONLY.
 - **Role 4 (Pitch, Lore & Assets):** `public/assets/**`, `README.md`, `src/config/constants.ts` (tuning only).
-- **Shared Immutable Contracts:** `src/types/asteroid.ts` is strictly read-only after Hour 2.
+- **Shared Immutable Contracts:** Any file in `src/types/**` is strictly read-only after team consensus.
 
 If the user asks you to edit files outside the role's assigned folder, STOP and warn them immediately.
 
 ## 3. ARCHITECTURAL LAWS
 1. **Max 180 lines per file:** Split into smaller modules if any file exceeds 180 lines.
-2. **Zero React State in 60 FPS Loop:** Never store bullets, asteroid positions, or frame ticks inside React `useState`.
+2. **Zero React State in 60 FPS Loop:** Never store high-frequency entity positions or frame ticks inside React `useState`.
 3. **One-Way Zustand Bridge:** PixiJS communicates with the UI strictly via `useGameStore.getState().actionName()`.
-4. **Offline Resilience:** All network requests in `src/services/` must catch errors and return `src/data/mockNeoData.json`.
+4. **Offline Resilience:** All network requests in `src/services/` must catch errors gracefully.
 
 ## 4. GIT TASK GUARD (STOP & MERGE PROTOCOL)
 - Never work directly on `main` or `dev`.
