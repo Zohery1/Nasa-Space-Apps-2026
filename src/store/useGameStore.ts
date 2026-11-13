@@ -34,3 +34,5 @@ export const useGameStore = create<RootStore>()((...a) => ({
   ...createCMLSlice(...a),
   ...createFlightSlice(...a),
 }));
+
+export * from './selectors';
