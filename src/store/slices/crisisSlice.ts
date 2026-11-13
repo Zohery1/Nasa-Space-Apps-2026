@@ -27,8 +27,10 @@ export interface CrisisSlice {
   triggerCrisis: (type: CrisisType) => void;
   tickCrisis: (deltaSeconds: number) => void;
   patchOxygenLeak: (amountRecovered?: number) => void;
+  pumpOxygen: (amountRecovered?: number) => void;
   stabilizeTemperature: () => void;
   repairHull: (amountRecovered?: number) => void;
+  repairBreach: (amountRecovered?: number) => void;
   resolveCrisis: () => void;
   resetCrisisState: () => void;
 }
@@ -104,6 +106,13 @@ export const createCrisisSlice: StateCreator<
     }));
   },
 
+  pumpOxygen: (amountRecovered = 20) => {
+    set((state) => ({
+      oxygenLevelPercent: Math.min(100, state.oxygenLevelPercent + amountRecovered),
+      oxygenLeakRatePerSecond: Math.max(0, state.oxygenLeakRatePerSecond - 0.5),
+    }));
+  },
+
   stabilizeTemperature: () => {
     set({
       temperatureDriftRatePerSecond: 0,
@@ -112,6 +121,13 @@ export const createCrisisSlice: StateCreator<
   },
 
   repairHull: (amountRecovered = 25) => {
+    set((state) => ({
+      hullIntegrityPercent: Math.min(100, state.hullIntegrityPercent + amountRecovered),
+      oxygenLeakRatePerSecond: 0,
+    }));
+  },
+
+  repairBreach: (amountRecovered = 25) => {
     set((state) => ({
       hullIntegrityPercent: Math.min(100, state.hullIntegrityPercent + amountRecovered),
       oxygenLeakRatePerSecond: 0,

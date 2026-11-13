@@ -1,54 +1,78 @@
-# 🚀 NASA Space Apps Hackathon — Foundation & Multi-Agent Workspace
+# 🚀 100 Days to Orbit — NASA Space Apps Challenge
 
-> High-Performance 2D Web Game Starter (Vite + React 18 + PixiJS v8 + TanStack Query + Zustand + Tailwind CSS).
+> **Co-operative & Solo Emergency Survival Simulator in Deep Space**
+> Built with PixiJS v8, React 18, Zustand, Tailwind CSS, and authentic NASA audio telemetry.
 > Configured exclusively for **Google Antigravity (`agy`)** and **OpenAI Codex CLI (`codex`)**.
 
 ---
 
+## 🌌 The Narrative Pitch
+Year 2145. Earth's biosphere is undergoing irreversible collapse, leaving humanity with only 100 days to vacate. The colony starship **Hope-1** has been launched on an urgent 20-day transit toward exoplanet **Kepler-X** with four specialized crew members.
+
+In the frantic pre-launch scramble, maintenance oversights left latent engineering defects across the ship's propulsion and life support systems. Players must coordinate across 4 high-stakes crisis stages (60 seconds each) to balance power, suppress fires, weld breaches, pump oxygen, and survive the journey to Kepler-X.
+
+---
+
+## 👥 Crew Roles & Gameplay Mechanics
+
+| Role | Station | Key Responsibility | Controls |
+|---|---|---|---|
+| **Commander (CDR)** | Cockpit | Manual helm steering & trajectory alignment | `WASD` / Arrow keys at Helm |
+| **CapCom (CAP)** | Avionics Bay | Tactical power distribution (Max 2 active buses) | `E` to toggle power routes |
+| **Flight Engineer (ENG)** | Engine Room | Physical welding, fire extinguishing & pressure venting | `WASD` to move, `Hold E` (3–5s) to repair |
+| **Science Specialist (SCI)** | Med & Life Lab | Manual O2 pumping & radiation stimpak injections | `Hold E` at O2 station, `E` to heal crew |
+
+*Solo mode allows instant switching between crew members using keys `1`, `2`, `3`, and `4`.*
+
+---
+
+## 🔥 The 4 Crisis Stages (Transit Loop)
+
+1. **Days 1–5: Pressure Shockwave**: An open maintenance valve ruptures under warp strain. The engine room ignites, doors lockdown, and oxygen rapidly escapes into vacuum.
+2. **Days 6–10: Dense Meteor Storm**: Burned guidance wiring forces manual evasive steering through a high-velocity asteroid field while routing shields.
+3. **Days 11–15: Coronal Mass Ejection**: Severe solar thermal spike threatens hull liquefaction; crew must vent heat valves and inject radiation counters.
+4. **Days 16–20: Atmospheric Insertion & Spore Toxin**: Alien spores invade life support systems as the ship approaches Kepler-X; the crew synthesizes an antidote while locking the precise atmospheric entry corridor.
+
+---
+
+## 🔬 NASA Scientific Rigor & Canonical Source Locking
+All engineering constraints, mission budgeting, and subsystems in *100 Days to Orbit* are verifiably locked to the 9 official NASA Space Apps Challenge resources:
+- **NASA Systems Engineering Handbook (`NPR 7120.5F`)**: $100M pre-flight mission engineering trade-offs (Mass vs Power vs Reserves).
+- **NASA GSFC Mission Design Lab (MDL)**: 16 spacecraft engineering disciplines (ADCS, Thermal Balance, Power EPS, Avionics).
+- **GMAT R2025a (`GSC-19468-1`)**: Realistic orbital insertion physics and delta-v constraints.
+- **JWST "Build It Yourself"**: Exoplanet atmospheric transit detection and habitability certification.
+- **NASA Audio Archive**: Authentic Quindar telemetry tones, Apollo 11 countdown chatter, and Voyager plasma sounds via Howler.js.
+
+---
+
 ## 🛠️ Tech Stack & Engine
-- **Engine / 2D Rendering**: [PixiJS v8](https://pixijs.com/) (Async WebGL/WebGPU pipeline)
+- **2D Rendering Engine**: [PixiJS v8](https://pixijs.com/) (Async WebGL/WebGPU pipeline)
 - **UI & HUD Overlay**: React 18 + Tailwind CSS + Framer Motion
-- **State Management**: Zustand (`src/store/useGameStore.ts`)
+- **State Management**: Zustand atomic stores (`src/store/useGameStore.ts`)
 - **Data Caching & API Client**: TanStack Query v5
-- **Audio Engine**: Howler.js
+- **Audio Engine**: Howler.js with authentic NASA public-domain audio
 - **Bundler & Tooling**: Vite + TypeScript
 
 ---
 
-## 👥 Team Territories & Boundaries
-To eliminate git merge conflicts and ensure parallel development:
+## 👥 Team Territories & Multi-Agent Boundaries
 | Role | Title | Territory Folder | Key Responsibility |
 |---|---|---|---|
 | **Role 1** | Lead Game Dev | `src/game/**` | PixiJS v8 Canvas, Ticker, 2D Entities, Movement, Physics Loop |
 | **Role 2** | Data & Integration Eng | `src/services/**`, `src/data/**`, `src/store/**` | NASA APIs, TanStack Query, Zustand State Store & Data Pipeline |
 | **Role 3** | UI/UX & Web Dev | `src/components/**`, `src/audio/**`, `src/App.tsx` | HUD Overlays, Modals, Menus, SFX Integration, Tailwind Styling |
-| **Role 4** | Pitch, Story & Assets | `public/assets/**`, `README.md`, `constants.ts` | Game Lore, Visual/Audio Assets, Gameplay Balancing, Pitch Deck, Demo Video |
-
-*Note: `src/types/**` contains shared immutable contracts agreed upon by the team.*
-
----
-
-## 📜 Core AI Agent Laws (Antigravity & Codex)
-1. **Zero-Hallucination & NASA Data Integrity Lock**: Agents must never lie, fabricate mock data, or invent parameters. All components, masses, orbits, formulas, and constraints are strictly locked to the 9 official NASA Challenge resources (`.agent/rules/nasa-data-integrity-lock.md`). Verify with `npm run validate:data`.
-2. **Context7-First Rule**: Agents must query live documentation via `context7` MCP before generating third-party library code (`pixi.js`, `zustand`, `@tanstack/react-query`).
-3. **Territory Lock**: Agents refuse to modify files outside the user's assigned role folder.
-4. **Git Task Guard**: Every feature requires a dedicated branch (`feat/rX-<task>`). Running `/finish-task` verifies build, commits, rebases on `dev`, and pushes.
+| **Role 4** | Pitch, Story & Assets | `public/assets/**`, `README.md`, `constants.ts` | Game Lore, Visual/Audio Assets, Gameplay Balancing, Pitch Deck |
 
 ---
 
 ## 💻 Machine Setup & Quickstart
 
-### 1. Prerequisites
-- **Node.js**: `v20.x` or `v22.x+` (`node -v && npm -v`)
-- **Git**: Installed and configured (`git --version`)
-
-### 2. Setup Project
 ```bash
 # Clone the repository
 git clone <YOUR_REPO_URL>
 cd nasa
 
-# Checkout the active development branch
+# Checkout development branch
 git checkout dev
 
 # Install dependencies
@@ -61,37 +85,7 @@ npm run build
 npm run dev
 ```
 
-### 3. Context7 MCP Setup
-- The file `.mcp.json` is already present in the repository root for Antigravity.
-- For Codex CLI users: verify `~/.codex/config.toml` includes:
-  ```toml
-  [mcp_servers.context7]
-  command = "npx"
-  args = ["-y", "@upstash/context7-mcp@latest"]
-
-  [mcp_servers.filesystem]
-  command = "npx"
-  args = ["-y", "@modelcontextprotocol/server-filesystem", "."]
-  ```
-
 ---
 
-## 🔄 Daily Workflow for Each Task
-1. **Pull latest integration code:**
-   ```bash
-   git checkout dev && git pull origin dev
-   ```
-2. **Create feature branch:**
-   ```bash
-   git checkout -b feat/r1-task-name   # Replace r1 with your role number
-   ```
-3. **Execute task with Antigravity (`agy`) or Codex CLI (`codex`).**
-4. **Finish task & verify:**
-   Run the `/finish-task` workflow:
-   ```bash
-   npm run build
-   git add .
-   git commit -m "feat(role): summary of changes"
-   git push -u origin HEAD
-   ```
-5. **Open Pull Request to `dev`** and merge.
+## 📜 Complete Game Design Document (GDD)
+Read the full technical specification at [`public/assets/lore/GDD.md`](public/assets/lore/GDD.md).

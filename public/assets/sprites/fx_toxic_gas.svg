@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <radialGradient id="gasGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.85"/>
+      <stop offset="45%" stop-color="#16a34a" stop-opacity="0.5"/>
+      <stop offset="85%" stop-color="#15803d" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#14532d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Bioluminescent Toxic Cloud Blobs -->
+  <circle cx="64" cy="64" r="48" fill="url(#gasGrad)"/>
+  <circle cx="42" cy="50" r="30" fill="url(#gasGrad)"/>
+  <circle cx="82" cy="72" r="34" fill="url(#gasGrad)"/>
+  <circle cx="76" cy="44" r="26" fill="url(#gasGrad)"/>
+  <!-- Spore Particles -->
+  <circle cx="50" cy="58" r="3" fill="#bbf7d0"/>
+  <circle cx="70" cy="66" r="4" fill="#86efac"/>
+  <circle cx="60" cy="40" r="2.5" fill="#4ade80"/>
+  <circle cx="84" cy="50" r="3" fill="#bbf7d0"/>
+</svg>

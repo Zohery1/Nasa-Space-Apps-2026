@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Hull Shield Icon -->
+  <path d="M 24 4 L 40 10 C 40 26, 32 38, 24 44 C 16 38, 8 26, 8 10 Z" fill="#1e293b" stroke="#3b82f6" stroke-width="3"/>
+  <path d="M 24 10 L 34 14 C 34 24, 28 32, 24 36 C 20 32, 14 24, 14 14 Z" fill="#2563eb" fill-opacity="0.5"/>
+</svg>
