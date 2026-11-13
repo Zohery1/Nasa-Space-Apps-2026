@@ -14,6 +14,7 @@ export const PixiWrapper: React.FC = () => {
       game.init(containerRef.current).catch((err) => {
         console.error('Failed to initialize PixiJS GameApp:', err);
       });
+      containerRef.current.focus();
     }
 
     const handleResize = () => {
@@ -34,5 +35,11 @@ export const PixiWrapper: React.FC = () => {
     };
   }, []);
 
-  return <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden" />;
+  return (
+    <div
+      ref={containerRef}
+      tabIndex={0}
+      className="absolute inset-0 w-full h-full overflow-hidden outline-none cursor-default"
+    />
+  );
 };

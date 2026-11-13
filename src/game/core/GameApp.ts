@@ -1,21 +1,13 @@
 import { Application } from 'pixi.js';
 import { SceneCoordinator } from './SceneCoordinator';
 import { StarfieldSystem } from '../systems/StarfieldSystem';
-import { EarthEntity } from '../entities/EarthEntity';
-import { GroundStationsEntity } from '../entities/GroundStationsEntity';
-import { OrbitRingEntity } from '../entities/OrbitRingEntity';
-import { CubeSatEntity } from '../entities/CubeSatEntity';
-import { PhysicsTickerSystem } from '../systems/PhysicsTickerSystem';
+import { ShipScene } from './ShipScene';
 
 export class GameApp {
   public app: Application | null = null;
   private coordinator: SceneCoordinator | null = null;
   private starfield: StarfieldSystem | null = null;
-  private earth: EarthEntity | null = null;
-  private groundStations: GroundStationsEntity | null = null;
-  private orbitRing: OrbitRingEntity | null = null;
-  private cubeSat: CubeSatEntity | null = null;
-  private tickerSystem: PhysicsTickerSystem | null = null;
+  private shipScene: ShipScene | null = null;
   private isDestroyed: boolean = false;
 
   public async init(container: HTMLDivElement): Promise<void> {
@@ -38,51 +30,34 @@ export class GameApp {
 
     // 1. Initialize Scene Coordinator
     this.coordinator = new SceneCoordinator(app.stage);
-    const scale = this.coordinator.updateDimensions(app.screen.width, app.screen.height);
+    this.coordinator.updateDimensions(app.screen.width, app.screen.height);
 
-    // 2. Initialize Visual Entities & Systems
+    // 2. Initialize Deep Space Background
     this.starfield = new StarfieldSystem();
-    this.starfield.initStars(app.screen.width, app.screen.height);
+    this.starfield.initStars(app.screen.width, app.screen.height, 220);
     this.coordinator.backgroundLayer.addChild(this.starfield.container);
 
-    this.earth = new EarthEntity();
-    this.earth.redraw(scale);
-    this.coordinator.earthLayer.addChild(this.earth.container);
+    // 3. Initialize Interactive Ship Deck & 4-Crew Scene
+    this.shipScene = new ShipScene();
+    this.shipScene.resize(app.screen.width, app.screen.height);
+    this.coordinator.stage.addChild(this.shipScene.container);
 
-    this.groundStations = new GroundStationsEntity();
-    this.groundStations.redraw(scale);
-    this.coordinator.groundStationsLayer.addChild(this.groundStations.container);
-
-    this.orbitRing = new OrbitRingEntity();
-    this.orbitRing.redraw(scale);
-    this.coordinator.orbitsLayer.addChild(this.orbitRing.container);
-
-    this.cubeSat = new CubeSatEntity();
-    this.coordinator.spacecraftLayer.addChild(this.cubeSat.container);
-
-    // 3. Initialize 60 FPS Keplerian Physics Loop
-    this.tickerSystem = new PhysicsTickerSystem(
-      this.earth,
-      this.groundStations,
-      this.orbitRing,
-      this.cubeSat
-    );
-
+    // 4. Main 60 FPS Ticker
     app.ticker.add((ticker) => {
-      if (!this.coordinator || !this.tickerSystem) return;
-      const currentScale = this.coordinator.getScaleConfig();
       this.starfield?.update(ticker.deltaTime);
-      this.tickerSystem.update(ticker, currentScale);
+      this.shipScene?.update(ticker);
     });
+  }
+
+  public setCrisisStage(stage: number): void {
+    this.shipScene?.setCrisisStage(stage);
   }
 
   public resize(): void {
     if (!this.app || !this.coordinator) return;
-    const scale = this.coordinator.updateDimensions(this.app.screen.width, this.app.screen.height);
+    this.coordinator.updateDimensions(this.app.screen.width, this.app.screen.height);
     this.starfield?.resize(this.app.screen.width, this.app.screen.height);
-    this.earth?.redraw(scale);
-    this.groundStations?.redraw(scale);
-    this.orbitRing?.redraw(scale);
+    this.shipScene?.resize(this.app.screen.width, this.app.screen.height);
   }
 
   public destroy(): void {
@@ -90,10 +65,7 @@ export class GameApp {
     if (this.app) {
       this.app.ticker.stop();
       this.starfield?.destroy();
-      this.earth?.destroy();
-      this.groundStations?.destroy();
-      this.orbitRing?.destroy();
-      this.cubeSat?.destroy();
+      this.shipScene?.destroy();
       this.coordinator?.destroy();
       this.app.destroy({ releaseGlobalResources: true });
       this.app = null;
