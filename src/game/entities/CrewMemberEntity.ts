@@ -1,7 +1,7 @@
 import { Container, Graphics, Sprite, Assets } from 'pixi.js';
 
 export interface CrewConfig {
-  id: number; // 1 to 4
+  id: number;
   roleCode: 'CDR' | 'CAP' | 'ENG' | 'SCI';
   roleName: string;
   suitColor: number;
@@ -17,9 +17,11 @@ export class CrewMemberEntity {
 
   private readonly selectionGraphics: Graphics;
   private readonly fallbackGraphics: Graphics;
+  private readonly overheadGraphics: Graphics;
   private avatarSprite: Sprite | null = null;
   private isSelected: boolean = false;
   private pulsePhase: number = 0;
+  private holdRatio: number = 0;
 
   constructor(config: CrewConfig) {
     this.config = config;
@@ -28,8 +30,9 @@ export class CrewMemberEntity {
 
     this.selectionGraphics = new Graphics();
     this.fallbackGraphics = new Graphics();
+    this.overheadGraphics = new Graphics();
 
-    this.container.addChild(this.selectionGraphics, this.fallbackGraphics);
+    this.container.addChild(this.selectionGraphics, this.fallbackGraphics, this.overheadGraphics);
     this.renderFallbackAvatar();
     this.loadSprite();
   }
@@ -64,6 +67,11 @@ export class CrewMemberEntity {
     this.redrawSelectionRing();
   }
 
+  public setInteractionProgress(ratio: number): void {
+    this.holdRatio = Math.max(0, Math.min(1.0, ratio));
+    this.redrawOverheadProgress();
+  }
+
   public update(deltaFrames: number): void {
     if (this.isSelected) {
       this.pulsePhase += 0.08 * deltaFrames;
@@ -78,16 +86,45 @@ export class CrewMemberEntity {
     const pulseScale = 1.0 + Math.sin(this.pulsePhase) * 0.12;
     const ringRadius = 22 * pulseScale;
 
-    // Glowing active selection circle
     this.selectionGraphics
       .circle(0, 0, ringRadius)
       .stroke({ width: 2.5, color: 0x38bdf8, alpha: 0.95 })
       .fill({ color: 0x38bdf8, alpha: 0.15 });
 
-    // Key number badge ring indicator (e.g. [1])
     this.selectionGraphics
       .circle(0, 20, 5)
       .fill({ color: 0x38bdf8, alpha: 0.95 });
+  }
+
+  private redrawOverheadProgress(): void {
+    this.overheadGraphics.clear();
+    if (this.holdRatio <= 0) return;
+
+    const headY = -26;
+    const radius = 10;
+    const startAngle = -Math.PI / 2;
+    const endAngle = startAngle + this.holdRatio * Math.PI * 2;
+
+    // Outer track
+    this.overheadGraphics
+      .arc(0, headY, radius, 0, Math.PI * 2)
+      .stroke({ width: 2.5, color: 0x334155, alpha: 0.8 });
+
+    // Active charging arc
+    this.overheadGraphics
+      .arc(0, headY, radius, startAngle, endAngle)
+      .stroke({ width: 3, color: 0x22c55e, alpha: 0.95 });
+
+    // Charging core dot
+    this.overheadGraphics
+      .circle(0, headY, 3)
+      .fill({ color: 0x86efac, alpha: 0.9 });
+
+    if (this.holdRatio >= 1.0) {
+      this.overheadGraphics
+        .circle(0, headY, radius + 4)
+        .fill({ color: 0x22c55e, alpha: 0.5 });
+    }
   }
 
   public setPosition(x: number, y: number): void {

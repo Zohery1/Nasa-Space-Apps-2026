@@ -43,18 +43,23 @@ export class InteractionSystem {
     // 2. Handle station transition
     if (this.activeStation !== nearbyStation) {
       this.activeStation?.setHoldProgress(0);
+      activeCrew.setInteractionProgress(0);
       this.activeStation = nearbyStation;
       this.holdElapsedMs = 0;
       this.isCompleted = false;
     }
 
-    if (!this.activeStation) return;
+    if (!this.activeStation) {
+      activeCrew.setInteractionProgress(0);
+      return;
+    }
 
     // 3. Process Hold E Interaction
     if (isHoldingE && !this.isCompleted) {
       this.holdElapsedMs += deltaMs;
       const progress = Math.min(1.0, this.holdElapsedMs / this.targetHoldMs);
       this.activeStation.setHoldProgress(progress);
+      activeCrew.setInteractionProgress(progress);
 
       if (progress >= 1.0) {
         this.triggerInteractionComplete(this.activeStation);
@@ -65,13 +70,13 @@ export class InteractionSystem {
       this.holdElapsedMs = 0;
       this.isCompleted = false;
       this.activeStation.setHoldProgress(0);
+      activeCrew.setInteractionProgress(0);
     }
   }
 
   private triggerInteractionComplete(station: StationTerminalEntity): void {
     const store = useGameStore.getState() as any;
 
-    // Discrete action dispatch based on station
     switch (station.config.id) {
       case 'station_helm':
         store.setScore?.((store.score || 0) + 150);

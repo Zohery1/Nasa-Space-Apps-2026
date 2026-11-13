@@ -5,6 +5,7 @@ import { StationTerminalEntity } from '../entities/StationTerminalEntity';
 import { CrewMemberEntity, CrewConfig } from '../entities/CrewMemberEntity';
 import { CrewControllerSystem } from '../systems/CrewControllerSystem';
 import { InteractionSystem } from '../systems/InteractionSystem';
+import { HazardVisualSystem } from '../systems/HazardVisualSystem';
 import { STATIONS_CATALOG, CREW_SPAWNS } from '../deck/DeckLayoutConfig';
 
 export class ShipScene {
@@ -15,6 +16,7 @@ export class ShipScene {
   private readonly crewMembers: CrewMemberEntity[] = [];
   private readonly controller: CrewControllerSystem;
   private readonly interaction: InteractionSystem;
+  private readonly hazardVfx: HazardVisualSystem;
 
   constructor() {
     this.container = new Container();
@@ -34,7 +36,11 @@ export class ShipScene {
       this.container.addChild(station.container);
     });
 
-    // 4. 4-Crew Member Entities with Authentic SVG Sprites
+    // 4. Hazard & Crisis VFX Layer (Fire, Thermal Glow, Toxic Gas)
+    this.hazardVfx = new HazardVisualSystem();
+    this.container.addChild(this.hazardVfx.container);
+
+    // 5. 4-Crew Member Entities with Authentic SVG Sprites
     const crewConfigs: CrewConfig[] = [
       {
         id: 1,
@@ -84,7 +90,7 @@ export class ShipScene {
       this.container.addChild(crew.container);
     });
 
-    // 5. Systems
+    // 6. Controllers & Systems
     this.controller = new CrewControllerSystem(this.crewMembers);
     this.interaction = new InteractionSystem(this.stations);
   }
@@ -97,6 +103,7 @@ export class ShipScene {
     const activeCrew = this.controller.getActiveCrew();
     this.interaction.update(activeCrew, this.controller.isHoldingE(), deltaMs);
     this.viewport.update(deltaFrames);
+    this.hazardVfx.update(ticker);
   }
 
   public resize(screenWidth: number, screenHeight: number): void {
@@ -108,11 +115,13 @@ export class ShipScene {
 
   public setCrisisStage(stage: number): void {
     this.viewport.setCrisisStage(stage);
+    this.hazardVfx.setCrisisStage(stage);
   }
 
   public destroy(): void {
     this.controller.destroy();
     this.interaction.destroy();
+    this.hazardVfx.destroy();
     this.deck.destroy();
     this.viewport.destroy();
     this.stations.forEach((s) => s.destroy());
