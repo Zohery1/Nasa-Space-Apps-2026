@@ -1,11 +1,11 @@
 import { CrewMemberEntity } from '../entities/CrewMemberEntity';
-import { DECK_ROOMS } from '../deck/DeckLayoutConfig';
+import { DECK_WALKABLE_ZONES } from '../deck/DeckLayoutConfig';
 
 export class CrewControllerSystem {
   private activeCrewId: number = 1; // 1: CDR, 2: CAP, 3: ENG, 4: SCI
   private readonly crewMap: Map<number, CrewMemberEntity> = new Map();
   private readonly pressedKeys: Set<string> = new Set();
-  private readonly moveSpeed: number = 2.8;
+  private readonly moveSpeed: number = 3.0;
 
   constructor(crewList: CrewMemberEntity[]) {
     crewList.forEach((c) => this.crewMap.set(c.config.id, c));
@@ -25,10 +25,10 @@ export class CrewControllerSystem {
 
   public update(deltaFrames: number): void {
     // 1. Process character switching (Keys 1, 2, 3, 4)
-    if (this.pressedKeys.has('1')) this.selectCrew(1);
-    if (this.pressedKeys.has('2')) this.selectCrew(2);
-    if (this.pressedKeys.has('3')) this.selectCrew(3);
-    if (this.pressedKeys.has('4')) this.selectCrew(4);
+    if (this.pressedKeys.has('1') || this.pressedKeys.has('Digit1')) this.selectCrew(1);
+    if (this.pressedKeys.has('2') || this.pressedKeys.has('Digit2')) this.selectCrew(2);
+    if (this.pressedKeys.has('3') || this.pressedKeys.has('Digit3')) this.selectCrew(3);
+    if (this.pressedKeys.has('4') || this.pressedKeys.has('Digit4')) this.selectCrew(4);
 
     // 2. Process WASD Movement
     const active = this.getActiveCrew();
@@ -43,21 +43,20 @@ export class CrewControllerSystem {
     if (this.pressedKeys.has('KeyD') || this.pressedKeys.has('ArrowRight')) dx += 1;
 
     if (dx !== 0 && dy !== 0) {
-      // Normalize diagonal speed
       dx *= 0.7071;
       dy *= 0.7071;
     }
 
     if (dx !== 0 || dy !== 0) {
-      const curPos = active.getPosition();
-      const targetX = curPos.x + dx * this.moveSpeed * deltaFrames;
-      const targetY = curPos.y + dy * this.moveSpeed * deltaFrames;
+      const cur = active.getPosition();
+      const targetX = cur.x + dx * this.moveSpeed * deltaFrames;
+      const targetY = cur.y + dy * this.moveSpeed * deltaFrames;
 
-      // 3. Collision check against deck boundaries
-      if (this.isWalkable(targetX, curPos.y)) {
-        active.setPosition(targetX, curPos.y);
+      // Axis-separated collision test to allow sliding along walls
+      if (this.isPositionWalkable(targetX, cur.y)) {
+        active.setPosition(targetX, cur.y);
       }
-      if (this.isWalkable(active.getPosition().x, targetY)) {
+      if (this.isPositionWalkable(active.getPosition().x, targetY)) {
         active.setPosition(active.getPosition().x, targetY);
       }
     }
@@ -66,21 +65,13 @@ export class CrewControllerSystem {
     this.crewMap.forEach((c) => c.update(deltaFrames));
   }
 
-  private isWalkable(x: number, y: number): boolean {
-    const margin = 14;
-
-    // Check corridor passes (Central vertical and horizontal airlocks)
-    const inVerticalCorridor = Math.abs(x) <= 20 && y >= -130 && y <= 110;
-    const inHorizontalCorridor = Math.abs(y) <= 20 && x >= -80 && x <= 80;
-    if (inVerticalCorridor || inHorizontalCorridor) return true;
-
-    // Check if inside any designated room floor
-    for (const room of DECK_ROOMS) {
-      const withinX = x >= room.x + margin && x <= room.x + room.width - margin;
-      const withinY = y >= room.y + margin && y <= room.y + room.height - margin;
-      if (withinX && withinY) return true;
+  private isPositionWalkable(x: number, y: number): boolean {
+    // Check against all walkable rectangles (rooms + airlock corridors)
+    for (const zone of DECK_WALKABLE_ZONES) {
+      if (x >= zone.xMin && x <= zone.xMax && y >= zone.yMin && y <= zone.yMax) {
+        return true;
+      }
     }
-
     return false;
   }
 
@@ -91,14 +82,16 @@ export class CrewControllerSystem {
 
   private handleKeyDown = (e: KeyboardEvent): void => {
     this.pressedKeys.add(e.code);
+    this.pressedKeys.add(e.key);
   };
 
   private handleKeyUp = (e: KeyboardEvent): void => {
     this.pressedKeys.delete(e.code);
+    this.pressedKeys.delete(e.key);
   };
 
   public isHoldingE(): boolean {
-    return this.pressedKeys.has('KeyE');
+    return this.pressedKeys.has('KeyE') || this.pressedKeys.has('e') || this.pressedKeys.has('E');
   }
 
   public destroy(): void {

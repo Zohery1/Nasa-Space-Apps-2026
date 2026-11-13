@@ -1,4 +1,4 @@
-import { Container, Graphics, Text, TextStyle } from 'pixi.js';
+import { Container, Graphics, Sprite, Assets } from 'pixi.js';
 
 export interface CrewConfig {
   id: number; // 1 to 4
@@ -6,6 +6,7 @@ export interface CrewConfig {
   roleName: string;
   suitColor: number;
   visorColor: number;
+  spritePath: string;
   initialX: number;
   initialY: number;
 }
@@ -14,8 +15,9 @@ export class CrewMemberEntity {
   public readonly container: Container;
   public readonly config: CrewConfig;
 
-  private readonly bodyGraphics: Graphics;
   private readonly selectionGraphics: Graphics;
+  private readonly fallbackGraphics: Graphics;
+  private avatarSprite: Sprite | null = null;
   private isSelected: boolean = false;
   private pulsePhase: number = 0;
 
@@ -25,46 +27,36 @@ export class CrewMemberEntity {
     this.container.position.set(config.initialX, config.initialY);
 
     this.selectionGraphics = new Graphics();
-    this.bodyGraphics = new Graphics();
+    this.fallbackGraphics = new Graphics();
 
-    const labelStyle = new TextStyle({
-      fontFamily: 'Courier New, monospace',
-      fontSize: 8,
-      fontWeight: 'bold',
-      fill: 0xffffff,
-    });
-
-    const badgeText = new Text({
-      text: config.roleCode,
-      style: labelStyle,
-    });
-    badgeText.anchor.set(0.5, 0.5);
-    badgeText.position.set(0, -18);
-
-    this.container.addChild(this.selectionGraphics, this.bodyGraphics, badgeText);
-    this.renderAvatar();
+    this.container.addChild(this.selectionGraphics, this.fallbackGraphics);
+    this.renderFallbackAvatar();
+    this.loadSprite();
   }
 
-  private renderAvatar(): void {
-    this.bodyGraphics.clear();
-
-    // 1. Life-Support Backpack
-    this.bodyGraphics
-      .roundRect(-8, -10, 16, 8, 2)
-      .fill({ color: 0x1e293b, alpha: 0.9 })
-      .stroke({ width: 1, color: 0x64748b, alpha: 0.8 });
-
-    // 2. Spacesuit Torso
-    this.bodyGraphics
-      .circle(0, 0, 10)
+  private renderFallbackAvatar(): void {
+    this.fallbackGraphics.clear();
+    this.fallbackGraphics
+      .circle(0, 0, 14)
       .fill({ color: this.config.suitColor, alpha: 0.95 })
-      .stroke({ width: 1.5, color: 0xffffff, alpha: 0.8 });
+      .stroke({ width: 2, color: 0xffffff, alpha: 0.9 });
+  }
 
-    // 3. Helmet Visor
-    this.bodyGraphics
-      .roundRect(-5, -6, 10, 6, 2)
-      .fill({ color: this.config.visorColor, alpha: 0.95 })
-      .stroke({ width: 1, color: 0xffffff, alpha: 0.9 });
+  private async loadSprite(): Promise<void> {
+    try {
+      const texture = await Assets.load(this.config.spritePath);
+      if (!texture) return;
+
+      this.avatarSprite = new Sprite(texture);
+      this.avatarSprite.anchor.set(0.5, 0.5);
+      this.avatarSprite.width = 34;
+      this.avatarSprite.height = 34;
+
+      this.container.addChild(this.avatarSprite);
+      this.fallbackGraphics.visible = false;
+    } catch (err) {
+      console.warn(`Crew sprite load failed for ${this.config.roleCode}:`, err);
+    }
   }
 
   public setSelected(selected: boolean): void {
@@ -81,22 +73,21 @@ export class CrewMemberEntity {
 
   private redrawSelectionRing(): void {
     this.selectionGraphics.clear();
-
     if (!this.isSelected) return;
 
     const pulseScale = 1.0 + Math.sin(this.pulsePhase) * 0.12;
-    const ringRadius = 15 * pulseScale;
+    const ringRadius = 22 * pulseScale;
 
     // Glowing active selection circle
     this.selectionGraphics
       .circle(0, 0, ringRadius)
-      .stroke({ width: 2, color: 0x38bdf8, alpha: 0.9 })
-      .fill({ color: 0x38bdf8, alpha: 0.12 });
+      .stroke({ width: 2.5, color: 0x38bdf8, alpha: 0.95 })
+      .fill({ color: 0x38bdf8, alpha: 0.15 });
 
-    // Player key number badge indicator (e.g. [1])
+    // Key number badge ring indicator (e.g. [1])
     this.selectionGraphics
-      .circle(0, 14, 4)
-      .fill({ color: 0x38bdf8, alpha: 0.9 });
+      .circle(0, 20, 5)
+      .fill({ color: 0x38bdf8, alpha: 0.95 });
   }
 
   public setPosition(x: number, y: number): void {
@@ -108,6 +99,9 @@ export class CrewMemberEntity {
   }
 
   public destroy(): void {
+    if (this.avatarSprite) {
+      this.avatarSprite.destroy({ texture: false });
+    }
     this.container.destroy({ children: true });
   }
 }

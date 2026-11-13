@@ -19,11 +19,11 @@ export class ShipScene {
   constructor() {
     this.container = new Container();
 
-    // 1. Deck Hull & Rooms
+    // 1. Deck SVG Map Plate
     this.deck = new ShipDeckEntity();
     this.container.addChild(this.deck.container);
 
-    // 2. Cockpit Viewport (Outer space window)
+    // 2. Cockpit Viewport (Panoramic glass window above Bridge)
     this.viewport = new CockpitViewportEntity();
     this.container.addChild(this.viewport.container);
 
@@ -34,12 +34,48 @@ export class ShipScene {
       this.container.addChild(station.container);
     });
 
-    // 4. 4-Crew Members
+    // 4. 4-Crew Member Entities with Authentic SVG Sprites
     const crewConfigs: CrewConfig[] = [
-      { id: 1, roleCode: 'CDR', roleName: 'Commander', suitColor: 0x1d4ed8, visorColor: 0xf59e0b, initialX: CREW_SPAWNS[1].x, initialY: CREW_SPAWNS[1].y },
-      { id: 2, roleCode: 'CAP', roleName: 'CapCom', suitColor: 0x0284c7, visorColor: 0x22d3ee, initialX: CREW_SPAWNS[2].x, initialY: CREW_SPAWNS[2].y },
-      { id: 3, roleCode: 'ENG', roleName: 'Flight Engineer', suitColor: 0xd97706, visorColor: 0xfbbf24, initialX: CREW_SPAWNS[3].x, initialY: CREW_SPAWNS[3].y },
-      { id: 4, roleCode: 'SCI', roleName: 'Science Specialist', suitColor: 0x059669, visorColor: 0x34d399, initialX: CREW_SPAWNS[4].x, initialY: CREW_SPAWNS[4].y },
+      {
+        id: 1,
+        roleCode: 'CDR',
+        roleName: 'Commander',
+        suitColor: 0x1d4ed8,
+        visorColor: 0xfbbf24,
+        spritePath: CREW_SPAWNS[1].sprite,
+        initialX: CREW_SPAWNS[1].x,
+        initialY: CREW_SPAWNS[1].y,
+      },
+      {
+        id: 2,
+        roleCode: 'CAP',
+        roleName: 'CapCom',
+        suitColor: 0x0284c7,
+        visorColor: 0x22d3ee,
+        spritePath: CREW_SPAWNS[2].sprite,
+        initialX: CREW_SPAWNS[2].x,
+        initialY: CREW_SPAWNS[2].y,
+      },
+      {
+        id: 3,
+        roleCode: 'ENG',
+        roleName: 'Flight Engineer',
+        suitColor: 0xd97706,
+        visorColor: 0xfbbf24,
+        spritePath: CREW_SPAWNS[3].sprite,
+        initialX: CREW_SPAWNS[3].x,
+        initialY: CREW_SPAWNS[3].y,
+      },
+      {
+        id: 4,
+        roleCode: 'SCI',
+        roleName: 'Science Specialist',
+        suitColor: 0x059669,
+        visorColor: 0x34d399,
+        spritePath: CREW_SPAWNS[4].sprite,
+        initialX: CREW_SPAWNS[4].x,
+        initialY: CREW_SPAWNS[4].y,
+      },
     ];
 
     crewConfigs.forEach((cfg) => {
@@ -64,10 +100,9 @@ export class ShipScene {
   }
 
   public resize(screenWidth: number, screenHeight: number): void {
-    // Center the ship deck in the screen with responsive scaling
     this.container.position.set(screenWidth / 2, screenHeight / 2);
     const minDim = Math.min(screenWidth, screenHeight);
-    const scale = Math.min(1.15, Math.max(0.7, minDim / 660));
+    const scale = Math.min(1.2, Math.max(0.65, minDim / 640));
     this.container.scale.set(scale);
   }
 

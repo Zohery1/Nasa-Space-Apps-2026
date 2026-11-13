@@ -22,7 +22,7 @@ export class InteractionSystem {
     }
 
     const crewPos = activeCrew.getPosition();
-    const proximityThreshold = 38;
+    const proximityThreshold = 42;
 
     // 1. Detect closest station within interaction radius
     let nearbyStation: StationTerminalEntity | null = null;
@@ -69,21 +69,23 @@ export class InteractionSystem {
   }
 
   private triggerInteractionComplete(station: StationTerminalEntity): void {
-    const store = useGameStore.getState();
+    const store = useGameStore.getState() as any;
 
     // Discrete action dispatch based on station
     switch (station.config.id) {
       case 'station_helm':
-        store.setScore((store.score || 0) + 150);
+        store.setScore?.((store.score || 0) + 150);
         break;
       case 'station_power':
-        store.setScore((store.score || 0) + 200);
+        store.setScore?.((store.score || 0) + 200);
         break;
       case 'station_o2':
-        store.setScore((store.score || 0) + 100);
+        store.pumpOxygen?.(20);
+        store.setScore?.((store.score || 0) + 150);
         break;
       case 'station_coolant':
-        store.setScore((store.score || 0) + 250);
+        store.repairBreach?.(25);
+        store.setScore?.((store.score || 0) + 250);
         break;
     }
   }
