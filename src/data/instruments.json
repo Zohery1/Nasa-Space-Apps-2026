@@ -1,0 +1,74 @@
+[
+  {
+    "id": "INST_GAMMA_BURST_MONITOR",
+    "name": "Gamma-Ray Burst Scintillator",
+    "category": "PARTICLE_DETECTOR",
+    "primaryWavelength": "GAMMA_RAY",
+    "massKg": 0.55,
+    "powerWatts": 3.2,
+    "dataRateKbps": 128,
+    "volumeU": 0.5,
+    "description": "Scintillation crystal detector sensitive to relativistic transient events and black hole mergers.",
+    "sourceResource": "Resource 6: JWST gametext.pdf (Fermi/Swift Benchmark)"
+  },
+  {
+    "id": "INST_XRAY_SPECTROMETER",
+    "name": "Grazing-Incidence X-Ray Spectrometer",
+    "category": "SPECTROMETER",
+    "primaryWavelength": "X_RAY",
+    "massKg": 0.85,
+    "powerWatts": 4.8,
+    "dataRateKbps": 256,
+    "volumeU": 0.8,
+    "description": "Nested shell optics measuring high-energy accretion discs and stellar black hole flares.",
+    "sourceResource": "Resource 6: JWST gametext.pdf (Chandra Benchmark)"
+  },
+  {
+    "id": "INST_UV_IMAGER",
+    "name": "Far-Ultraviolet Stellar Imager",
+    "category": "OPTICAL_PAYLOAD",
+    "primaryWavelength": "ULTRAVIOLET",
+    "massKg": 1.10,
+    "powerWatts": 5.5,
+    "dataRateKbps": 512,
+    "volumeU": 1.0,
+    "description": "Monolithic mirror telescope capturing hot young massive stars and ionised nebulae.",
+    "sourceResource": "Resource 6: JWST gametext.pdf (Hubble Benchmark)"
+  },
+  {
+    "id": "INST_OPTICAL_HIGHRES_CAM",
+    "name": "High-Resolution Planetary Camera",
+    "category": "OPTICAL_PAYLOAD",
+    "primaryWavelength": "OPTICAL",
+    "massKg": 0.95,
+    "powerWatts": 5.0,
+    "dataRateKbps": 1024,
+    "volumeU": 1.0,
+    "description": "Visible light multiband sensor for exoplanet transit photometery and stellar surveys.",
+    "sourceResource": "Resource 6: JWST gametext.pdf (Hubble Benchmark)"
+  },
+  {
+    "id": "INST_INFRARED_RADIOMETER",
+    "name": "Cryogenic Infrared Sounder",
+    "category": "SPECTROMETER",
+    "primaryWavelength": "INFRARED",
+    "massKg": 1.35,
+    "powerWatts": 7.2,
+    "dataRateKbps": 512,
+    "volumeU": 1.5,
+    "description": "Actively cooled IR sensor piercing interstellar dust to detect primordial galaxies and protostars.",
+    "sourceResource": "Resource 6: JWST gametext.pdf (JWST / Spitzer Benchmark)"
+  },
+  {
+    "id": "INST_MICROWAVE_RECEIVER",
+    "name": "Cosmic Microwave Radiometer",
+    "category": "RADIO_SCIENCE",
+    "primaryWavelength": "MICROWAVE",
+    "massKg": 0.70,
+    "powerWatts": 3.8,
+    "dataRateKbps": 64,
+    "volumeU": 0.7,
+    "description": "Heterodyne receiver observing cosmic microwave background anisotropy and early cosmic dawn.",
+    "sourceResource": "Resource 6: JWST gametext.pdf (WMAP / Planck Benchmark)"
+  }
+]

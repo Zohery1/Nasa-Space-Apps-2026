@@ -1,0 +1,32 @@
+[
+  {
+    "launchVehicleId": "LV_FALCON9_RIDESHARE",
+    "vehicleName": "Falcon 9 Rideshare (Transporter)",
+    "payloadCapacityLEO_kg": 22800,
+    "payloadCapacitySSO_kg": 200,
+    "fairingDiameter_m": 5.2,
+    "fairingHeight_m": 13.1,
+    "estimatedCostUSD": 1200000,
+    "source": "NASA Systems Engineering (Resource 1) & CSLI Rideshare"
+  },
+  {
+    "launchVehicleId": "LV_ELECTRON_DEDICATED",
+    "vehicleName": "Rocket Lab Electron (Dedicated SmallSat)",
+    "payloadCapacityLEO_kg": 300,
+    "payloadCapacitySSO_kg": 200,
+    "fairingDiameter_m": 1.2,
+    "fairingHeight_m": 2.5,
+    "estimatedCostUSD": 7500000,
+    "source": "NASA Systems Engineering (Resource 1) & SmallSat Compendium"
+  },
+  {
+    "launchVehicleId": "LV_SLS_SECONDARY",
+    "vehicleName": "SLS Orion Stage Adapter (Deep Space Rideshare)",
+    "payloadCapacityLEO_kg": 95000,
+    "payloadCapacitySSO_kg": 0,
+    "fairingDiameter_m": 8.4,
+    "fairingHeight_m": 19.1,
+    "estimatedCostUSD": 3500000,
+    "source": "NASA CSLI CubeSat 101 (Resource 7) & SLS Secondary Payloads"
+  }
+]

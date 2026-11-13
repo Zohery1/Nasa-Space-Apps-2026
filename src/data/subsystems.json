@@ -1,0 +1,68 @@
+[
+  {
+    "id": "SUBSYS_ADCS_REACTION_WHEEL",
+    "name": "3-Axis Reaction Wheels & Star Tracker",
+    "category": "ADCS",
+    "massKg": 0.45,
+    "powerDrawWatts": 2.5,
+    "volumeU": 0.3,
+    "description": "NASA GSFC MDL ADCS discipline standard: miniature reaction wheels and autonomous star tracker for high-precision sub-arcminute pointing.",
+    "efficiencyOrDeltaV": 0.05,
+    "sourceResource": "Resource 4: NASA GSFC MDL Disciplines"
+  },
+  {
+    "id": "SUBSYS_PROP_COLD_GAS",
+    "name": "Micro Cold-Gas Propulsion Unit",
+    "category": "PROPULSION",
+    "massKg": 0.85,
+    "powerDrawWatts": 1.5,
+    "volumeU": 0.6,
+    "description": "NASA GSFC MDL Propulsion discipline standard: clean nitrogen cold-gas thruster for orbit maintenance and collision avoidance.",
+    "efficiencyOrDeltaV": 120.0,
+    "sourceResource": "Resource 4: NASA GSFC MDL Disciplines"
+  },
+  {
+    "id": "SUBSYS_EPS_DET_BATTERY",
+    "name": "Direct Energy Transfer EPS & Li-Ion Pack",
+    "category": "POWER_EPS",
+    "massKg": 0.60,
+    "powerDrawWatts": 0.9,
+    "volumeU": 0.5,
+    "description": "NASA GSFC MDL Power discipline standard: 80 Wh battery pack with UL 1642 compliant cells and MPPT solar charging.",
+    "efficiencyOrDeltaV": 0.94,
+    "sourceResource": "Resource 4: NASA GSFC MDL Disciplines"
+  },
+  {
+    "id": "SUBSYS_COMMS_SBAND",
+    "name": "S-Band Transceiver & Patch Antenna",
+    "category": "COMMUNICATIONS",
+    "massKg": 0.38,
+    "powerDrawWatts": 4.5,
+    "volumeU": 0.3,
+    "description": "NASA GSFC MDL Communications discipline standard: space-to-ground S-band radio supporting NASA Near Space Network (NSN).",
+    "efficiencyOrDeltaV": 2.0,
+    "sourceResource": "Resource 4: NASA GSFC MDL Disciplines"
+  },
+  {
+    "id": "SUBSYS_THERMAL_LOUVER",
+    "name": "Passive Thermal Radiator & Louvers",
+    "category": "THERMAL",
+    "massKg": 0.30,
+    "powerDrawWatts": 0.0,
+    "volumeU": 0.2,
+    "description": "NASA GSFC MDL Thermal discipline standard: bimetallic passive louvers and MLI insulation blankets for deep-space thermal equilibrium.",
+    "efficiencyOrDeltaV": 0.88,
+    "sourceResource": "Resource 4: NASA GSFC MDL Disciplines"
+  },
+  {
+    "id": "SUBSYS_AVIONICS_OBC",
+    "name": "Rad-Hard Flight Computer & C&DH",
+    "category": "AVIONICS_OBC",
+    "massKg": 0.25,
+    "powerDrawWatts": 2.0,
+    "volumeU": 0.2,
+    "description": "NASA GSFC MDL Avionics discipline standard: radiation-tolerant dual-core ARM processor handling telemetry, commands, and safe-mode logic.",
+    "efficiencyOrDeltaV": 1.0,
+    "sourceResource": "Resource 4: NASA GSFC MDL Disciplines"
+  }
+]
