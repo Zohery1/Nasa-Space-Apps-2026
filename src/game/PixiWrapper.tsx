@@ -1,41 +1,35 @@
 import React, { useEffect, useRef } from 'react';
-import { Application } from 'pixi.js';
+import { GameApp } from './core/GameApp';
 
 export const PixiWrapper: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const appRef = useRef<Application | null>(null);
+  const gameAppRef = useRef<GameApp | null>(null);
 
   useEffect(() => {
     let isMounted = true;
+    const game = new GameApp();
+    gameAppRef.current = game;
 
-    async function initPixi() {
-      if (!containerRef.current || appRef.current) return;
-
-      const app = new Application();
-      await app.init({
-        resizeTo: window,
-        backgroundAlpha: 0,
-        antialias: true,
-        resolution: window.devicePixelRatio || 1,
-        autoDensity: true,
+    if (containerRef.current) {
+      game.init(containerRef.current).catch((err) => {
+        console.error('Failed to initialize PixiJS GameApp:', err);
       });
-
-      if (!isMounted) {
-        app.destroy(true, { children: true });
-        return;
-      }
-
-      appRef.current = app;
-      containerRef.current.appendChild(app.canvas);
     }
 
-    initPixi();
+    const handleResize = () => {
+      if (isMounted && gameAppRef.current) {
+        gameAppRef.current.resize();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
       isMounted = false;
-      if (appRef.current) {
-        appRef.current.destroy(true, { children: true });
-        appRef.current = null;
+      window.removeEventListener('resize', handleResize);
+      if (gameAppRef.current) {
+        gameAppRef.current.destroy();
+        gameAppRef.current = null;
       }
     };
   }, []);
