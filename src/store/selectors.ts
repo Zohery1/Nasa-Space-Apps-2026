@@ -23,6 +23,22 @@ export const selectInstalledInstruments = (state: RootStore) => state.installedI
 export const selectInstalledSubsystems = (state: RootStore) => state.installedSubsystems;
 export const selectCubeSatValidation = (state: RootStore) => state.cubeSatValidation;
 
+// Crisis State Selectors
+export const selectActiveCrisis = (state: RootStore) => state.activeCrisis;
+export const selectIsCrisisActive = (state: RootStore) => state.isCrisisActive;
+export const selectCrisisTimerSeconds = (state: RootStore) => state.crisisTimerSeconds;
+export const selectOxygenLevelPercent = (state: RootStore) => state.oxygenLevelPercent;
+export const selectInternalTemperature = (state: RootStore) => state.internalTemperatureCelsius;
+export const selectHullIntegrityPercent = (state: RootStore) => state.hullIntegrityPercent;
+
+// Power Routing Selectors
+export const selectPoweredSystems = (state: RootStore) => state.poweredSystems;
+export const selectLastRoutingError = (state: RootStore) => state.lastRoutingError;
+
+// Flight Debrief & Ranking Selectors
+export const selectLatestDebrief = (state: RootStore) => state.latestDebrief;
+export const selectRankHistory = (state: RootStore) => state.rankHistory;
+
 // Derived Atomic Selectors (Memoized calculations)
 export const selectTotalInstrumentsMassKg = (state: RootStore): number => {
   return Number(

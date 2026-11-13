@@ -3,6 +3,9 @@ import { MissionSlice, createMissionSlice } from './slices/missionSlice';
 import { CubeSatSlice, createCubeSatSlice } from './slices/cubesatSlice';
 import { CMLSlice, createCMLSlice } from './slices/cmlSlice';
 import { FlightSlice, createFlightSlice } from './slices/flightSlice';
+import { CrisisSlice, createCrisisSlice } from './slices/crisisSlice';
+import { PowerRoutingSlice, createPowerRoutingSlice } from './slices/powerRoutingSlice';
+import { RankingSlice, createRankingSlice } from './slices/rankingSlice';
 
 export type GameStatus = 'IDLE' | 'PLAYING' | 'PAUSED' | 'GAME_OVER';
 
@@ -18,10 +21,13 @@ export type RootStore = BaseGameSlice &
   MissionSlice &
   CubeSatSlice &
   CMLSlice &
-  FlightSlice;
+  FlightSlice &
+  CrisisSlice &
+  PowerRoutingSlice &
+  RankingSlice;
 
 export const useGameStore = create<RootStore>()((...a) => ({
-  // Base Game Slice (backward compatible)
+  // Base Game Slice
   status: 'IDLE',
   score: 0,
   setStatus: (status) => a[0]({ status }),
@@ -33,6 +39,9 @@ export const useGameStore = create<RootStore>()((...a) => ({
   ...createCubeSatSlice(...a),
   ...createCMLSlice(...a),
   ...createFlightSlice(...a),
+  ...createCrisisSlice(...a),
+  ...createPowerRoutingSlice(...a),
+  ...createRankingSlice(...a),
 }));
 
 export * from './selectors';

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <radialGradient id="sciGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#047857" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="60" fill="url(#sciGlow)" stroke="#10b981" stroke-width="4"/>
+  <circle cx="64" cy="56" r="32" fill="#0f172a" stroke="#34d399" stroke-width="3"/>
+  <path d="M 42 56 Q 64 44 86 56 Q 64 72 42 56 Z" fill="#6ee7b7" stroke="#059669" stroke-width="2"/>
+  <ellipse cx="58" cy="52" rx="6" ry="2" fill="#ffffff" opacity="0.8"/>
+  <!-- Medical / Biology Cross Badge -->
+  <path d="M 32 110 C 32 86, 96 86, 96 110 Z" fill="#059669" stroke="#a7f3d0" stroke-width="3"/>
+  <rect x="61" y="90" width="6" height="16" fill="#ecfdf5"/>
+  <rect x="56" y="95" width="16" height="6" fill="#ecfdf5"/>
+  <text x="64" y="122" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#a7f3d0" text-anchor="middle">SCI: LIFE/MED</text>
+</svg>

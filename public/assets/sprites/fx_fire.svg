@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="fireGrad" cx="50%" cy="80%" r="70%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="30%" stop-color="#f97316"/>
+      <stop offset="80%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#7f1d1d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path d="M 32 4 C 36 20, 52 28, 52 44 C 52 56, 42 62, 32 62 C 22 62, 12 56, 12 44 C 12 28, 28 20, 32 4 Z" fill="url(#fireGrad)"/>
+  <path d="M 32 24 C 36 32, 44 38, 44 48 C 44 54, 38 58, 32 58 C 26 58, 20 54, 20 48 C 20 38, 28 32, 32 24 Z" fill="#fef08a"/>
+  <!-- Sparks -->
+  <circle cx="16" cy="22" r="2" fill="#fbbf24"/>
+  <circle cx="48" cy="18" r="2" fill="#f97316"/>
+  <circle cx="36" cy="10" r="1.5" fill="#fef08a"/>
+</svg>
