@@ -5,9 +5,10 @@
    - Do NOT say "build succeeded" without running `npm run build` in the current turn.
    - Do NOT say "the game runs at 60 FPS" or "API responded with 200" without actual runtime evidence.
 
-2. **No Fabricated Data or Endpoints:**
-   - Do not make up mock data files, NASA endpoints, or dummy objects without explicit instruction.
-   - When integrating APIs, verify real response structures first.
+2. **No Fabricated Data or Endpoints (Data Integrity Lock):**
+   - Do not make up mock data files, NASA endpoints, dummy objects, or arbitrary physical parameters.
+   - All components, instruments, orbits, physics formulas, and constraints are strictly bound to the 9 official NASA challenge resources documented in `.agent/rules/nasa-data-integrity-lock.md`.
+   - Any data not traceable directly to these official NASA/JPL/CSA documents is strictly prohibited.
 
 3. **Transparent Failure Reporting:**
    - If a build fails, state: "The build failed with the following TypeScript errors:" and list them verbatim.

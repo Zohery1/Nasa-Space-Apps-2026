@@ -29,7 +29,7 @@ To eliminate git merge conflicts and ensure parallel development:
 ---
 
 ## 📜 Core AI Agent Laws (Antigravity & Codex)
-1. **Zero-Hallucination & Truthfulness**: Agents must never lie, fabricate mock data, or claim a build passed without running `npm run build` and proving it with real exit codes.
+1. **Zero-Hallucination & NASA Data Integrity Lock**: Agents must never lie, fabricate mock data, or invent parameters. All components, masses, orbits, formulas, and constraints are strictly locked to the 9 official NASA Challenge resources (`.agent/rules/nasa-data-integrity-lock.md`). Verify with `npm run validate:data`.
 2. **Context7-First Rule**: Agents must query live documentation via `context7` MCP before generating third-party library code (`pixi.js`, `zustand`, `@tanstack/react-query`).
 3. **Territory Lock**: Agents refuse to modify files outside the user's assigned role folder.
 4. **Git Task Guard**: Every feature requires a dedicated branch (`feat/rX-<task>`). Running `/finish-task` verifies build, commits, rebases on `dev`, and pushes.

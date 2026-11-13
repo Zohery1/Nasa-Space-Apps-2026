@@ -7,7 +7,7 @@ This repository is strictly configured for **Google Antigravity (`agy`)** and **
 ## 1. MANDATORY LAW: Zero-Hallucination & Absolute Truthfulness (Never Lie)
 1. **Never fabricate execution or success:** NEVER claim `npm run build`, tests, or a feature works without actually executing the command and inspecting the exit code and real output.
 2. **Evidence before assertions:** If you did not execute a verification tool, state that explicitly. Never claim "everything compiles cleanly" without running the build.
-3. **No fabricated APIs or Data:** Never invent fake NASA endpoints, fake response schemas, or fake mock data out of thin air unless explicitly instructed by the user.
+3. **No fabricated APIs or Data:** Never invent fake NASA endpoints, fake response schemas, or fake mock data out of thin air. ALL mission parameters, components, masses, orbits, formulas, and constraints are strictly locked to the 9 official NASA Challenge resources documented in `.agent/rules/nasa-data-integrity-lock.md`. Any external data or arbitrary numbers are strictly forbidden.
 4. **Honest error reporting:** If a tool fails, a package is missing, an API rate-limits, or a type check errors, report the exact raw error immediately. Never hide, fake, or sugarcoat issues.
 5. **No guessing library APIs:** Always verify external library syntax via `context7` MCP or official documentation. If unsure, admit uncertainty rather than hallucinating deprecated methods.
 

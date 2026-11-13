@@ -1,0 +1,37 @@
+[
+  {
+    "goalId": "BLACK_HOLES",
+    "name": "Supermassive & Stellar Black Holes",
+    "description": "Probe matter falling into black holes and relativistic jets via high-energy radiation.",
+    "compatibleWavelengths": ["GAMMA_RAY", "X_RAY", "OPTICAL", "ULTRAVIOLET"],
+    "forbiddenWavelengths": ["INFRARED", "MICROWAVE"]
+  },
+  {
+    "goalId": "STAR_FORMATION",
+    "name": "Star Formation & Stellar Nurseries",
+    "description": "Penetrate dense interstellar dust clouds to observe collapsing protostars.",
+    "compatibleWavelengths": ["INFRARED", "OPTICAL", "ULTRAVIOLET"],
+    "forbiddenWavelengths": ["GAMMA_RAY"]
+  },
+  {
+    "goalId": "EARLY_UNIVERSE",
+    "name": "Early Universe & Cosmic Dawn",
+    "description": "Observe primordial galaxies redshifted into the infrared and cosmic background radiation.",
+    "compatibleWavelengths": ["INFRARED", "MICROWAVE", "OPTICAL"],
+    "forbiddenWavelengths": ["X_RAY", "GAMMA_RAY"]
+  },
+  {
+    "goalId": "EXOPLANETS",
+    "name": "Exoplanets & Planetary Atmospheres",
+    "description": "Detect atmospheric absorption lines and biosignatures around nearby stars.",
+    "compatibleWavelengths": ["OPTICAL", "INFRARED"],
+    "forbiddenWavelengths": ["GAMMA_RAY", "X_RAY", "MICROWAVE"]
+  },
+  {
+    "goalId": "GALAXIES",
+    "name": "Galaxy Evolution & Active Galactic Nuclei",
+    "description": "Map cosmic structures, stellar populations, and dark matter distribution.",
+    "compatibleWavelengths": ["OPTICAL", "INFRARED", "ULTRAVIOLET", "X_RAY"],
+    "forbiddenWavelengths": ["GAMMA_RAY"]
+  }
+]

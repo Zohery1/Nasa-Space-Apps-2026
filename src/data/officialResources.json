@@ -1,0 +1,65 @@
+[
+  {
+    "id": "res-1",
+    "title": "Design and Develop Science Missions",
+    "organization": "NASA",
+    "url": "https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf",
+    "scope": "Systems Engineering, 4 Core Mission Segments (Launch, Space, Ground, User), NPR 7120.5F / NPR 7120.8A"
+  },
+  {
+    "id": "res-2",
+    "title": "General Mission Analysis Tool (GMAT)",
+    "organization": "NASA GSFC",
+    "url": "https://software.nasa.gov/software/GSC-19468-1",
+    "scope": "Orbital mechanics, Tsiolkovsky delta-v, Hohmann transfer, plane changes, J2 perturbations"
+  },
+  {
+    "id": "res-3",
+    "title": "Concept Maturity Levels (CMLs)",
+    "organization": "NASA JPL",
+    "url": "https://dataverse.jpl.nasa.gov/dataset.xhtml?persistentId=hdl:2014/44299",
+    "scope": "CML 1-6 Pre-Phase A to Phase A advancement gates, Science Traceability Matrix (STM), mass and cost margins"
+  },
+  {
+    "id": "res-4",
+    "title": "Mission Design Lab (MDL)",
+    "organization": "NASA GSFC",
+    "url": "https://etd.gsfc.nasa.gov/capabilities/integrated-design-center/mission-design-lab/",
+    "scope": "16 spacecraft disciplines: ADCS, Propulsion, Power, Thermal, Structures, Avionics, Comms, Cost, Reliability"
+  },
+  {
+    "id": "res-5",
+    "title": "NASA Mission Viz",
+    "organization": "NASA",
+    "url": "https://nasa.github.io/mission-viz/",
+    "scope": "GMAT-derived Cartesian trajectories (ECI J2000 state vectors) and Kepler orbit propagator"
+  },
+  {
+    "id": "res-6",
+    "title": "JWST Build It Yourself Satellite Game",
+    "organization": "NASA Science",
+    "url": "https://science.nasa.gov/mission/webb/game-build-it-yourself/",
+    "scope": "gametext.pdf rules: 5 science goals, wavelength compatibility, optics rules, 7 flagship benchmarks"
+  },
+  {
+    "id": "res-7",
+    "title": "CubeSat 101 Basic Concepts and Processes (CSLI)",
+    "organization": "NASA",
+    "url": "https://www3.nasa.gov/sites/default/files/atoms/files/nasa_csli_cubesat_101_508.pdf",
+    "scope": "1U-12U standard envelopes, 30-min deployer inhibit, 45-min RF silence timer, UL 1642 battery safety"
+  },
+  {
+    "id": "res-8",
+    "title": "Visualize a Space Mission Using VR",
+    "organization": "NASA Space Apps 2023",
+    "url": "https://www.spaceappschallenge.org/2023/challenges/visualize-a-space-mission-using-virtual-reality/",
+    "scope": "Flight trajectory profiles: LEO, SSO, GEO, Earth-Moon transfer (TLI/LOI), Earth-Mars Aldrin cycler"
+  },
+  {
+    "id": "res-9",
+    "title": "Canadian Space Agency Digital Games & Activities",
+    "organization": "Canadian Space Agency (CSA)",
+    "url": "https://www.asc-csa.gc.ca/eng/youth-educators/digital-games-and-activities.asp",
+    "scope": "Real CSA flight payloads: RADARSAT Constellation (RCM SAR), OSIRIS-REx OLA LIDAR, and space biology"
+  }
+]

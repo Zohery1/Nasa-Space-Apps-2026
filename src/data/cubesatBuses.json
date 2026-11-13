@@ -1,0 +1,74 @@
+[
+  {
+    "formFactor": "1U",
+    "dimensionsMm": { "x": 100.0, "y": 100.0, "z": 113.5 },
+    "maxAllowableMassKg": 1.33,
+    "availableInternalVolumeU": 1.0,
+    "maxSolarPowerWatts": 2.5,
+    "maxBatteryCapacityWh": 10.0,
+    "deployablesTimerSeconds": 1800,
+    "rfSilenceTimerSeconds": 2700,
+    "batteryCertification": "UL_1642",
+    "requiredInhibitsCount": 3
+  },
+  {
+    "formFactor": "1.5U",
+    "dimensionsMm": { "x": 100.0, "y": 100.0, "z": 170.2 },
+    "maxAllowableMassKg": 2.00,
+    "availableInternalVolumeU": 1.5,
+    "maxSolarPowerWatts": 4.5,
+    "maxBatteryCapacityWh": 15.0,
+    "deployablesTimerSeconds": 1800,
+    "rfSilenceTimerSeconds": 2700,
+    "batteryCertification": "UL_1642",
+    "requiredInhibitsCount": 3
+  },
+  {
+    "formFactor": "2U",
+    "dimensionsMm": { "x": 100.0, "y": 100.0, "z": 227.0 },
+    "maxAllowableMassKg": 2.66,
+    "availableInternalVolumeU": 2.0,
+    "maxSolarPowerWatts": 7.0,
+    "maxBatteryCapacityWh": 20.0,
+    "deployablesTimerSeconds": 1800,
+    "rfSilenceTimerSeconds": 2700,
+    "batteryCertification": "UL_1642",
+    "requiredInhibitsCount": 3
+  },
+  {
+    "formFactor": "3U",
+    "dimensionsMm": { "x": 100.0, "y": 100.0, "z": 340.5 },
+    "maxAllowableMassKg": 4.00,
+    "availableInternalVolumeU": 3.0,
+    "maxSolarPowerWatts": 12.0,
+    "maxBatteryCapacityWh": 40.0,
+    "deployablesTimerSeconds": 1800,
+    "rfSilenceTimerSeconds": 2700,
+    "batteryCertification": "UL_1642",
+    "requiredInhibitsCount": 3
+  },
+  {
+    "formFactor": "6U",
+    "dimensionsMm": { "x": 100.0, "y": 226.3, "z": 366.0 },
+    "maxAllowableMassKg": 12.00,
+    "availableInternalVolumeU": 6.0,
+    "maxSolarPowerWatts": 35.0,
+    "maxBatteryCapacityWh": 80.0,
+    "deployablesTimerSeconds": 1800,
+    "rfSilenceTimerSeconds": 2700,
+    "batteryCertification": "UL_1642",
+    "requiredInhibitsCount": 3
+  },
+  {
+    "formFactor": "12U",
+    "dimensionsMm": { "x": 226.3, "y": 226.3, "z": 366.0 },
+    "maxAllowableMassKg": 24.00,
+    "availableInternalVolumeU": 12.0,
+    "maxSolarPowerWatts": 80.0,
+    "maxBatteryCapacityWh": 160.0,
+    "deployablesTimerSeconds": 1800,
+    "rfSilenceTimerSeconds": 2700,
+    "batteryCertification": "UL_1642",
+    "requiredInhibitsCount": 3
+  }
+]
